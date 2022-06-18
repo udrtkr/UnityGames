@@ -1010,8 +1010,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3100623543871767143}
   - component: {fileID: 3100623543862717825}
+  - component: {fileID: 3216862156238936155}
+  - component: {fileID: 1159509580158433390}
+  - component: {fileID: 5499556004329756776}
   m_Layer: 0
-  m_Name: Friends02_CatWhite
+  m_Name: Friends01_CatWhite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1052,6 +1055,49 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &3216862156238936155
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3100623543872200263}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.6241474, y: 2.252375, z: 2.552301}
+  m_Center: {x: 0.00981161, y: 1.127165, z: -0.043757677}
+--- !u!136 &1159509580158433390
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3100623543872200263}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.69091153
+  m_Height: 1.7647253
+  m_Direction: 0
+  m_Center: {x: -0.003543079, y: 2.7824838, z: 1.3030627}
+--- !u!54 &5499556004329756776
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3100623543872200263}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &3100623543872200265
 GameObject:
   m_ObjectHideFlags: 0

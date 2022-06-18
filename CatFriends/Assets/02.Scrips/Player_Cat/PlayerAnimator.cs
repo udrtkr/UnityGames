@@ -6,7 +6,7 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator animator;
 
-    private async void Awake()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
     }
