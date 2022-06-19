@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     /// <summary>
     /// ======== Private ========
     /// </summary>
@@ -44,6 +45,10 @@ public class PlayerController : MonoBehaviour
         verti = Input.GetAxis("Vertical");
 
         isMoveOk = Mathf.Sqrt(horiz*horiz + verti*verti) > isMoveValue ? true : false; // horiz,verti의 크기로 결정
+        if(isMoveOk)
+            playerAnimator.SetBool("IsIdle",false);
+        else
+            playerAnimator.SetBool("IsIdle", true);
 
         if (isMoveOk)
         {
@@ -75,4 +80,7 @@ public class PlayerController : MonoBehaviour
             SetTurn();
         }
     }
+
+
+
 }
