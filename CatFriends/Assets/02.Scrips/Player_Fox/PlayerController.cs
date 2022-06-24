@@ -15,9 +15,12 @@ public class PlayerController : MonoBehaviour
     private float verti; // Vertical
     private PlayerAnimator playerAnimator;
     private Vector3 _move; // move Vector
-    private Rigidbody rb; 
+    private Rigidbody rb;
     private bool isMoveOk; // 움직일 수 있는지 체크
     private float isMoveValue = 0.2f; // 움직일 수 있는 최소 move 벡터 크기
+    public bool isUnderTheSea;
+    private float waterDensity = 0.9998f;
+
 
 
     private void Awake()
@@ -38,6 +41,22 @@ public class PlayerController : MonoBehaviour
         rb.rotation = Quaternion.Slerp(rb.rotation, newRotation, rotateSpeed * Time.fixedDeltaTime);
     }
 
+    private void UnderTheSea()
+    {
+        rb.AddForce(Vector3.up * rb.mass * waterDensity * 0.98f, ForceMode.Force);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Water"))
+            isUnderTheSea = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Water"))
+            isUnderTheSea = false;
+    }
 
     private void Update()
     {

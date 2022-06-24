@@ -10,11 +10,14 @@ public class CameraController : MonoBehaviour
     private float y_posOrigin = 3.1f;
     private float distanceZ_PlayerAndCam = -7f;
     private float distanceZ_PlayerAndCam_Grooming = 4f;
+    private Camera cam;
+    private Color dayColor;
+    private Color nightColor;
 
     private void Awake()
     {
         trCam = GetComponent<Transform>();
-        
+        cam = GetComponent<Camera>();
     }
 
     private void Start()
