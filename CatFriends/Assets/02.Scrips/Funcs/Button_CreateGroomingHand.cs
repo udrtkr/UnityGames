@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Button_CreateGroomingHand : MonoBehaviour
 {
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject handPrefab;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject handPrefab;
     private GameObject hand;
     public bool isGroomingHand = false;
 

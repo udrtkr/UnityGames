@@ -521,7 +521,6 @@ GameObject:
   - component: {fileID: 111804759}
   - component: {fileID: 111804758}
   - component: {fileID: 111804761}
-  - component: {fileID: 111804762}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -536,7 +535,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111804757}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &111804759
 Camera:
   m_ObjectHideFlags: 0
@@ -546,7 +545,7 @@ Camera:
   m_GameObject: {fileID: 111804757}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.5235849, g: 0.9328994, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -603,22 +602,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 111804757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &111804762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111804757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1f3242f59e7a2b448ffc0eed4b18023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 753021660}
+  duration: 3
 --- !u!1001 &122206172
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3201,7 +3189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!215 &525446246
 ReflectionProbe:
   m_ObjectHideFlags: 0
@@ -3243,7 +3231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525446245}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 14.25, y: 2.06, z: -43.74}
+  m_LocalPosition: {x: -11.42, y: 2.06, z: 43.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5885,6 +5873,7 @@ GameObject:
   - component: {fileID: 970375270}
   - component: {fileID: 970375269}
   - component: {fileID: 970375268}
+  - component: {fileID: 970375272}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -5973,6 +5962,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &970375272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970375267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ecb51ad6a50d384599ac83c018ccd45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsGroomingOk: 0
+  groomingButton: {fileID: 1860723630}
+  fishingButton: {fileID: 142854598}
+  player: {fileID: 753021660}
+  handPrefab: {fileID: 4760393494662033011, guid: aef24c1b756466841b21ee5fdf07df35, type: 3}
+  isGroomingHand: 0
 --- !u!4 &977014198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 803019497602220625, guid: e1eaa02314a382d4193af3de770677f6, type: 3}
@@ -9748,6 +9755,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4353699184651281081, guid: 6ab95afc5b621784ca0606b0b15afde3, type: 3}
   m_PrefabInstance: {fileID: 1613504251}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1628320021
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.388775
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 25.744038
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543871767143, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3100623543872200263, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
+      propertyPath: m_Name
+      value: Friends01_CatWhite
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2bf742364efbebe4daa2f6a0bfebaecd, type: 3}
 --- !u!1001 &1640871655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10658,7 +10722,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC560\uC639"
+  m_Text: "\uC4F0\uB2F4"
 --- !u!222 &1784428442
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10680,7 +10744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 85279466165046662, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 478252424826021903, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
       propertyPath: m_Layer
@@ -10753,6 +10817,10 @@ PrefabInstance:
     - target: {fileID: 2524580110044538089, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2998497567291960305, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3364725944393069956, guid: 9fedecbd1aa68924b816f15cb97e611a, type: 3}
       propertyPath: m_Layer
@@ -11052,7 +11120,6 @@ GameObject:
   - component: {fileID: 1860723632}
   - component: {fileID: 1860723631}
   - component: {fileID: 1860723630}
-  - component: {fileID: 1860723633}
   m_Layer: 5
   m_Name: Grooming
   m_TagString: Untagged
@@ -11124,8 +11191,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1860723633}
-        m_TargetAssemblyTypeName: Button_CreateGroomingHand, Assembly-CSharp
+      - m_Target: {fileID: 970375272}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: SetGroomingHand
         m_Mode: 1
         m_Arguments:
@@ -11174,21 +11241,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860723628}
   m_CullTransparentMesh: 1
---- !u!114 &1860723633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860723628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e8c5ba30de07aa4b90226016b5ec3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 753021660}
-  handPrefab: {fileID: 4760393494662033011, guid: aef24c1b756466841b21ee5fdf07df35, type: 3}
-  isGroomingHand: 0
 --- !u!1001 &1862587223
 PrefabInstance:
   m_ObjectHideFlags: 0
