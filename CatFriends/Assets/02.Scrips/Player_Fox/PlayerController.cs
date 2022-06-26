@@ -16,11 +16,14 @@ public class PlayerController : MonoBehaviour
     private PlayerAnimator playerAnimator;
     private Vector3 _move; // move Vector
     private Rigidbody rb;
-    private BoxCollider col;
+    private Collider col;
+    private BoxCollider bcol;
     private bool isMoveOk; // 움직일 수 있는지 체크
     private float isMoveValue = 0.2f; // 움직일 수 있는 최소 move 벡터 크기
     public bool isUnderTheSea;
     private float waterDensity = 0.9998f;
+    private float gravity = -9.81f;
+    private bool forceStop;
 
 
 
@@ -28,7 +31,13 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<PlayerAnimator>();
-        col = GetComponent<BoxCollider>();
+        col = GetComponent<Collider>();
+        bcol = GetComponent<BoxCollider>();
+    }
+
+    private void Gravity(float g)
+    {
+        rb.AddForce(new Vector3(0, g * rb.mass, 0), ForceMode.Acceleration);
     }
     private void SetMove(float h, float v, float speed) // 움직임 관련 Setting 함수
     {
@@ -37,34 +46,37 @@ public class PlayerController : MonoBehaviour
         _move = _move * speed;
     }
 
+    
+
     private void SetTurn() // 부드럽게 회전하는 함수
     {
         Quaternion newRotation = Quaternion.LookRotation(_move);
         rb.rotation = Quaternion.Slerp(rb.rotation, newRotation, rotateSpeed * Time.fixedDeltaTime);
     }
     
-    private void UnderTheSea()
+    public void UnderTheSea(bool TorF)
     {
-        rb.AddForce(new Vector3(0, (float)((-0.3 - transform.position.y) * (col.size.x * col.size.z) * waterDensity * 9.81f), 0), ForceMode.VelocityChange);
+        playerAnimator.SetBool("IsUnderSea", TorF);
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    public void ForceStop(bool stop)
     {
-        Debug.Log("enter");
-        if(other.gameObject.layer == LayerMask.NameToLayer("Water"))
-            isUnderTheSea = true;
+        forceStop = stop;
     }
-    
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Water"))
-            isUnderTheSea = false;
-    }
+
     
     private void Update()
     {
-        horiz = Input.GetAxis("Horizontal");
-        verti = Input.GetAxis("Vertical");
+        if (!forceStop) // 강제로 멈추지 x
+        {
+            horiz = Input.GetAxis("Horizontal");
+            verti = Input.GetAxis("Vertical");
+        }
+        else // 강제로 멈춤
+        {
+            horiz = 0;
+            verti = 0;
+        }
 
         isMoveOk = Mathf.Sqrt(horiz*horiz + verti*verti) > isMoveValue ? true : false; // horiz,verti의 크기로 결정    
 
@@ -94,12 +106,13 @@ public class PlayerController : MonoBehaviour
         PlayerUI.instance.SetGroomingOk(!isMoveOk);
         if (PlayerUI.instance.GetGrooming()) // 그루밍 중일때
         {
-            isMoveOk = false;
+            forceStop = true;
             playerAnimator.SetBool("IsIdle", false); // 이땐 강제로 isIdle false 로 
             playerAnimator.SetBool("IsGrooming", true);
         }
         else
         {
+            forceStop = false;
             playerAnimator.SetBool("IsGrooming", false); // 그루밍 아닐 땐 플레이어의 Move에 따라 isIdle t/f 결정
         }
 
@@ -109,17 +122,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Gravity(gravity);
+
         if (isMoveOk)
         {
             rb.position += _move * Time.fixedDeltaTime;
             SetTurn();
         }
-        
-        if (isUnderTheSea)
-        {
-            UnderTheSea();
-        }
-        
 
         // PlayerUI 
         if (PlayerUI.instance.isGroomingHand) // 그루밍 중일때

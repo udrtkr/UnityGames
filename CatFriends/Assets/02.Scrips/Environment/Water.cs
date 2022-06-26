@@ -6,10 +6,11 @@ public class Water : MonoBehaviour
 {
     private float waterDensity = 0.9998f;
     private float vol_xz;
-    [SerializeField] private LayerMask playerLayer;
+    public LayerMask playerLayer;
     private GameObject player;
     private Rigidbody rb;
     private BoxCollider bc;
+    private Transform tr;
 
     public bool isOn;
 
@@ -18,7 +19,8 @@ public class Water : MonoBehaviour
         if (1 << other.gameObject.layer == playerLayer)
         {
             isOn = true;
-            player = other.gameObject;
+            other.gameObject.GetComponent<PlayerController>().UnderTheSea(true);
+            tr = other.gameObject.transform;
             rb = other.gameObject.GetComponent<Rigidbody>();
             bc = other.gameObject.GetComponent<BoxCollider>();
             vol_xz = (bc.size.x * bc.size.z);
@@ -30,16 +32,17 @@ public class Water : MonoBehaviour
         if (1 << other.gameObject.layer == playerLayer)
         {
             isOn = false;
+            other.gameObject.GetComponent<PlayerController>().UnderTheSea(false);
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (isOn)
         {
-            //rb.AddForce(Vector3.up * (transform.position.y - player.transform.position.y) * vol_xz * waterDensity * 9.81f,
-            //            ForceMode.Force);
-            rb.AddForce(Vector3.up * rb.mass * waterDensity * 9.81f,
-                        ForceMode.Force);
+            rb.AddForce(Vector3.up * (transform.position.y - tr.position.y) * vol_xz * waterDensity * 9.81f,
+                        ForceMode.Acceleration);
+            // rb.AddForce(Vector3.up * rb.mass * waterDensity * 9.81f,
+            //            ForceMode.Acceleration);
         }
     }
 
