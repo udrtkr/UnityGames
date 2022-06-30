@@ -7,10 +7,13 @@ public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI instance;
     public bool IsGroomingOk; // 쓰다듬기 ok (플레이어가 멈춰있을 때)
+    public FriendInfo friendInfo; // 친구 정보를 가져와 playerUI에서 사용해야함 : 이름,
+
     [SerializeField] private Button groomingButton;
     [SerializeField] private Button fishingButton;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject handPrefab;
+    [SerializeField] private GameObject TalkPanel;
     private GameObject groomingHand;
     public bool isGroomingHand = false;
 
@@ -51,7 +54,24 @@ public class PlayerUI : MonoBehaviour
         }
         else
         {
+            // 일어날 시간까지 forcestop true로
             Destroy(groomingHand);
         }
+    }
+
+    public void SetTalk(bool TorF)
+    {
+        TalkPanel.SetActive(TorF);
+        if (TorF)
+        {
+            TalkPanel.GetComponent<TalkPanel>().friendInfo = friendInfo;
+            TalkPanel.GetComponent<TalkPanel>().SetName();
+            // TalkPanel.GetComponentInChildren<Text>().text = friendInfo.frirendName;
+        }
+    }
+
+    public void SetTalkFinish()
+    {
+        TalkPanel.SetActive(false);
     }
 }

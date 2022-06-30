@@ -1013,6 +1013,8 @@ GameObject:
   - component: {fileID: 3216862156238936155}
   - component: {fileID: 1159509580158433390}
   - component: {fileID: 5499556004329756776}
+  - component: {fileID: -7129992959564734365}
+  - component: {fileID: 7100950619382793640}
   m_Layer: 7
   m_Name: Friends01_CatWhite
   m_TagString: Untagged
@@ -1098,6 +1100,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &-7129992959564734365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3100623543872200263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85fe87ee33ca6f44809f28d43eed6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeteted: 0
+  playerPos: {x: 0, y: 0, z: 0}
+  rotateSpeed: 5
+--- !u!114 &7100950619382793640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3100623543872200263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0790cad868f8d419d87da057ba9c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: 1586756d689b5cc428fb27166ac2d3d4, type: 2}
 --- !u!1 &3100623543872200265
 GameObject:
   m_ObjectHideFlags: 0

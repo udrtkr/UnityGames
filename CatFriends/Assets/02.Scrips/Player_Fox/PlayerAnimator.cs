@@ -24,4 +24,23 @@ public class PlayerAnimator : MonoBehaviour
     public void SetInt(string name, int value) => animator.SetInteger(name, value);
 
     public void SetTrigger(string name) => animator.SetTrigger(name);
+
+    public float GetAnimatorNameTime(string AnimationName)
+    {
+        float time = 0;
+        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+        for(int i = 0; i< ac.animationClips.Length; i++)
+        {
+            if (ac.animationClips[i].name == AnimationName)
+            {
+                time = ac.animationClips[i].length;
+            }
+        }
+        return time;
+    }
+
+    public float GetCurrentAniTime()
+    {
+        return animator.GetCurrentAnimatorClipInfo(0).Length;
+    }
 }

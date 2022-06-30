@@ -4303,6 +4303,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5279990851623668727}
   - component: {fileID: 5279990851630638131}
+  - component: {fileID: 3084838916162206409}
+  - component: {fileID: 5498194030221001710}
+  - component: {fileID: 2901391484304933642}
+  - component: {fileID: 4508568976784632012}
   m_Layer: 7
   m_Name: Friends03_TIger
   m_TagString: Untagged
@@ -4345,6 +4349,61 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &3084838916162206409
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279990851623245719}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.30032173, y: 0.6664938, z: 0.92744344}
+  m_Center: {x: 0.0023242459, y: 0.33617258, z: -0.053749345}
+--- !u!136 &5498194030221001710
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279990851623245719}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.13977818
+  m_Height: 0.27956188
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5618587, z: 0.51652575}
+--- !u!114 &2901391484304933642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279990851623245719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0790cad868f8d419d87da057ba9c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: bdfcf703ddcee3a4da610b6ec3f769d3, type: 2}
+--- !u!114 &4508568976784632012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279990851623245719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85fe87ee33ca6f44809f28d43eed6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeteted: 0
+  playerPos: {x: 0, y: 0, z: 0}
+  rotateSpeed: 5
 --- !u!1 &5279990851623245721
 GameObject:
   m_ObjectHideFlags: 0

@@ -232,6 +232,9 @@ GameObject:
   - component: {fileID: 5619985934887145615}
   - component: {fileID: 4013264866691947452}
   - component: {fileID: 5538523275524594841}
+  - component: {fileID: -1387583928961135401}
+  - component: {fileID: -237916741340380918}
+  - component: {fileID: 1807380973065409661}
   m_Layer: 7
   m_Name: Friends02_CatAluc
   m_TagString: Untagged
@@ -303,6 +306,48 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.08185618, y: 0.12196373, z: 0.13477395}
   m_Center: {x: -0.000014391541, y: 0.061033186, z: -0.0070471913}
+--- !u!136 &-1387583928961135401
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526554761915109350}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.037493683
+  m_Height: 0.086636044
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.13621414, z: 0.064175345}
+--- !u!114 &-237916741340380918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526554761915109350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85fe87ee33ca6f44809f28d43eed6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDeteted: 0
+  playerPos: {x: 0, y: 0, z: 0}
+  rotateSpeed: 5
+--- !u!114 &1807380973065409661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526554761915109350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0790cad868f8d419d87da057ba9c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 11400000, guid: ba5ab7e40470c7a4b877b920b97b9670, type: 2}
 --- !u!1 &1921977085086819228
 GameObject:
   m_ObjectHideFlags: 0

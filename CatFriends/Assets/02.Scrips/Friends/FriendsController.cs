@@ -24,34 +24,26 @@ public class FriendsController : MonoBehaviour
     public void Deteted(bool TorF, Vector3 pos)
     {
         isDeteted = TorF;
+
         playerPos = pos;
     }
-
-    public void SetRotatePlayer()
+    private void SetTurn(Vector3 dir) // 부드럽게 회전하는 함수
     {
-        transform.LookAt(new Vector3(playerPos.x, transform.position.y, playerPos.z)); // 내일 즐찾에서 다시
-        //Quaternion newRotation = Quaternion.LookRotation(playerPos);
-        //rb.rotation = Quaternion.Slerp(rb.rotation, newRotation, rotateSpeed * Time.fixedDeltaTime);
-    }
-    private void SetRotateOriginal()
-    {
-        transform.LookAt(transform.position - new Vector3(0, 0, 3));
-        //Quaternion newRotation = Quaternion.LookRotation(transform.position - new Vector3(0, 0, 3));
-        //rb.rotation = Quaternion.Slerp(rb.rotation, newRotation, rotateSpeed * Time.fixedDeltaTime);
+        Vector3 _dir = dir - transform.position;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_dir), Time.deltaTime * rotateSpeed);
     }
 
-    
 
-    private void FixedUpdate()
+    private void Update()
     {
         // 플레이어쪽에서 디텍트 했을 때 부드럽게 보게
         if (isDeteted)
         {
-            SetRotatePlayer();
+            SetTurn(new Vector3(playerPos.x, transform.position.y, playerPos.z));
         }
         else
         {
-            SetRotateOriginal();
+            SetTurn(new Vector3(transform.position.x, transform.position.y, -3));
         }
     }
 }

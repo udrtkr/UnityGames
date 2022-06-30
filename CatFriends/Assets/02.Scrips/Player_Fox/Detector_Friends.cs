@@ -21,7 +21,7 @@ public class Detector_Friends : MonoBehaviour
             isDetect = true;
             Friend = other.gameObject;
             Friend.GetComponent<FriendsController>().Deteted(isDetect, transform.position);
-            FriendsUI.instance.SetUp(other.gameObject.transform.position);
+            FriendsUI.instance.SetUp(other.gameObject.transform.position, Friend.GetComponent<Friend>().info);
         }
     }
 
@@ -30,7 +30,7 @@ public class Detector_Friends : MonoBehaviour
         if(other.gameObject.layer == LayerMask.NameToLayer("Friend"))
         {
             isDetect = false;
-            Friend.GetComponent<FriendsController>().Deteted(isDetect, transform.position);
+            Friend.GetComponent<FriendsController>().Deteted(isDetect, Vector3.zero);
             FriendsUI.instance.Clear();
         }
     }

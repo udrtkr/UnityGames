@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FriendsUI : MonoBehaviour
 {
     public static FriendsUI instance;
 
-    public FrirendInfo friendInfo;
+    public FriendInfo friendInfo;
+    public bool isTalk;
 
     [SerializeField] private float height = 1f;
     [SerializeField] private GameObject Friend;
@@ -19,10 +21,11 @@ public class FriendsUI : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-    public void SetUp(Vector3 pos)
+    public void SetUp(Vector3 pos, FriendInfo frendinfo)
     {
         gameObject.SetActive(true);
         gameObject.transform.position = pos + Vector3.up * height;
+        friendInfo = frendinfo;
     }
 
     public void Clear()
@@ -30,14 +33,15 @@ public class FriendsUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void GetFrirendInfo(FrirendInfo frendinfo) // 대화에서 프렌드 정보 사용 => csv 같은걸로 프렌드 정보에 이름에 따라 다르게
+    public void GetFrirendInfo(FriendInfo frendinfo) // 대화에서 프렌드 정보 사용 => csv 같은걸로 프렌드 정보에 이름에 따라 다르게
     {
         friendInfo = frendinfo;
     }
-    public void SetHello()
+    
+    public void SetTalk()
     {
-        // 프렌드 헬로 함수 여기서 씀  플레이어 transform 가저와 dir 적용
-        // 플레이어도 프렌드 방향 바라봄
-        // 프렌드 인사 애니메이션 시간 가져와 그 시간동안 플레이어 정지시켜
+        isTalk = !isTalk; // 나중엔 대화끝나면 이즈텈 바귀게 할거임 
+        PlayerUI.instance.friendInfo = friendInfo; // talk클릭 시 플레이어UI에 정보 전달해서 대화 ㄱ
+        PlayerUI.instance.SetTalk(isTalk);
     }
 }

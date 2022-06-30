@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data_Friend", menuName = "ScriptableObject/CreateFriendInfo")]
-public class FrirendInfo : ScriptableObject
+public class FriendInfo : ScriptableObject
 {
-    public FrirendType frirendType;
+    public FriendType frirendType;
     public string frirendName;
     public string frirendDescription;
     public string frirendTitle;
 
 
 }
-public enum FrirendType
+public enum FriendType
 {
     CatAluc,
     CatWhite,
