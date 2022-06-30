@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class WoodBoatDetector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool isDetect;
+    [SerializeField] private LayerMask Player;
+    private void OnTriggerStay(Collider other)
     {
-        
+        if(1 << other.gameObject.layer == Player)
+        {
+            isDetect = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (1 << other.gameObject.layer == Player)
+        {
+            isDetect = false;
+        }
     }
 }
