@@ -7,6 +7,7 @@ public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI instance;
     public bool IsGroomingOk; // 쓰다듬기 ok (플레이어가 멈춰있을 때)
+    public bool IsFishingOK;
     public FriendInfo friendInfo; // 친구 정보를 가져와 playerUI에서 사용해야함 : 이름,
 
     [SerializeField] private Button groomingButton;
@@ -15,13 +16,16 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private GameObject handPrefab;
     [SerializeField] private GameObject TalkPanel;
     private GameObject groomingHand;
-    public bool isGroomingHand = false;
+    public bool isGroomingHand;
+    public bool isFishing;
 
     private void Awake()
     {
         if(instance != null)
             Destroy(instance);
         instance = this;
+
+        fishingButton.interactable = false;
     }
 
     public void SetGroomingOk(bool isIdle) // 플레이어컨트롤에서 isIdle 일 때, isGroomingOk 와 button interact 컨트롤
@@ -37,10 +41,9 @@ public class PlayerUI : MonoBehaviour
             groomingButton.interactable = false;
         }
     }
-
-    public bool GetGrooming() // 플레이어 컨트롤러에서 사용
+    public void SetFishingOK(bool TorF)
     {
-        return isGroomingHand;
+        fishingButton.interactable = TorF;
     }
 
     public void SetGroomingHand() // 그루밍 버튼의 온클릭 ==> 그루밍 on
@@ -59,6 +62,18 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    public void SetFishing() // 피싱 버튼 온클릭 ==> 피싱 on 피싱 여부에 따라 카메라 전환 on
+    {
+        isFishing = !isFishing;
+        if (isFishing)
+        {
+            CameraManager.instance.ShowFishingView();
+            groomingButton.interactable = false;
+        }
+        else
+            CameraManager.instance.ShowMainView();
+    }
+
     public void SetTalk(bool TorF)
     {
         TalkPanel.SetActive(TorF);
@@ -70,8 +85,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    public void SetTalkFinish()
-    {
-        TalkPanel.SetActive(false);
-    }
+    
+
+   
 }

@@ -13,6 +13,6 @@ public class WoodBoat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // isOn 할 때 플레이어와 일심동체ㅡ 플레이어 폴스 스탑, 이거를 움직임 조종
     }
 }

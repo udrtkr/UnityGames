@@ -38,10 +38,12 @@ public class FriendsUI : MonoBehaviour
         friendInfo = frendinfo;
     }
     
-    public void SetTalk()
+    public void SetTalk(bool TorF)
     {
-        isTalk = !isTalk; // 나중엔 대화끝나면 이즈텈 바귀게 할거임 
+        isTalk = TorF; // 나중엔 대화끝나면 이즈텈 바귀게 할거임 
+        instance.Clear();
         PlayerUI.instance.friendInfo = friendInfo; // talk클릭 시 플레이어UI에 정보 전달해서 대화 ㄱ
-        PlayerUI.instance.SetTalk(isTalk);
+        PlayerUI.instance.SetTalk(TorF);
     }
+
 }

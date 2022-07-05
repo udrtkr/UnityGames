@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // todo 피싱중일때 피싱 플레이스 앞에 플레이스에서 주기적으로 물고기 생성, 잡는 행동 할 때마다 애니메이터 발동
 
     /// <summary>
     /// ======== Private ========
@@ -19,7 +20,13 @@ public class PlayerController : MonoBehaviour
     private float isMoveValue = 0.2f; // 움직일 수 있는 최소 move 벡터 크기
     public bool isUnderTheSea;
     private float gravity = -9.81f;
+    private float restStartTime = 6f;
+
     public bool forceStop;
+
+    [Header("States")] //[Serialfield]
+    public PlyaerState plyaerState;
+    public JumpState jumpState;
     private float horiz // Horizontal
     {
         get { return forceStop ? 0 : Input.GetAxis("Horizontal"); ; }
@@ -64,23 +71,6 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimator.SetBool("IsUnderSea", TorF);
     }
-
-    public void ForceStop(bool stop)
-    {
-        forceStop = stop;
-    }
-    
-    public void WaitAniTime()
-    {
-        float Timer = playerAnimator.GetCurrentAniTime();
-        E_WaitAniTime(Timer);
-        ForceStop(false); // 강제멈춤 종료
-    }
-
-    private IEnumerator E_WaitAniTime(float Timer)
-    {
-        yield return new WaitForSeconds(Timer);
-    }
     
     private void Update()
     {
@@ -104,28 +94,29 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("IsIdle", true);
             playerAnimator.SetBool("IsWalk", false);
             playerAnimator.SetBool("IsRun", false);
+            RestStart(restStartTime);
         }
 
         // PlayerUI 
         PlayerUI.instance.SetGroomingOk(!isMoveOk);
-        if (PlayerUI.instance.GetGrooming()) // 그루밍 중일때
+        if (PlayerUI.instance.isGroomingHand || PlayerUI.instance.isFishing) // 그루밍 중일때, 낚시중일때
         {
-            forceStop = true;
             playerAnimator.SetBool("IsIdle", false); // 이땐 강제로 isIdle false 로 
             playerAnimator.SetBool("IsGrooming", true);
         }
         else
         {
-            //forceStop = false;
             playerAnimator.SetBool("IsGrooming", false); // 그루밍 아닐 땐 플레이어의 Move에 따라 isIdle t/f 결정
-            WaitAniTime(); // 현재 애니메이션 타임 기다리고 움직임
+            
         }
 
         // FriendUI
-        if (FriendsUI.instance.isTalk)
+        if (FriendsUI.instance.isTalk || PlayerUI.instance.isGroomingHand || PlayerUI.instance.isFishing)
             forceStop = true;
         else
+        {
             forceStop = false;
+        }
 
     }
 
@@ -142,12 +133,67 @@ public class PlayerController : MonoBehaviour
         }
 
         // PlayerUI 
-        if (PlayerUI.instance.GetGrooming()) // 그루밍 중일때
+        if (PlayerUI.instance.isGroomingHand || PlayerUI.instance.isFishing) // 그루밍 중일때 or 낚시중일때
         {
             SetTurn(Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z)); // 앞쪽을 바라보게
         }
     }
 
+    IEnumerator E_RestStart(float restStartTimer)
+    {
+        float Timer = restStartTimer;
+        while (!isMoveOk)
+        {
+            if (Timer < 0)
+            {
+                playerAnimator.SetTrigger("IsRest");
+                break;
+            }
+            else
+            {
+                Timer -= Time.deltaTime;
+                yield return null;
+            }
+        }
+        yield return null;
+    }
+    private void RestStart(float restStartTimer)
+    {
+        StartCoroutine(E_RestStart(restStartTimer));
+    }
 
 
+    private void UpdateJumpState()
+    {
+        switch (jumpState)
+        {
+            case JumpState.Idle:
+                break;
+            case JumpState.Prepare:
+                break;
+            case JumpState.Casting:
+                break;
+            case JumpState.OnAction:
+                break;
+            case JumpState.Finish:
+                break;
+        }
+    }
+
+    public enum JumpState
+    {
+        Idle,
+        Prepare,
+        Casting,
+        OnAction,
+        Finish,
+    }
+
+}
+
+public enum PlyaerState
+{
+    Idle,
+    Move,
+    Jump
 }
