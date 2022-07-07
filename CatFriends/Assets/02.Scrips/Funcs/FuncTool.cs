@@ -9,6 +9,6 @@ public class FuncTool : MonoBehaviour
 public enum FuncToolType
 {
     GroomingHand,
-    FishingTool,
+    FishingRod,
 
 }

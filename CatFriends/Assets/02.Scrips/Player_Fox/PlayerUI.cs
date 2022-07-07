@@ -13,9 +13,9 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Button groomingButton;
     [SerializeField] private Button fishingButton;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject handPrefab;
     [SerializeField] private GameObject TalkPanel;
     private GameObject groomingHand;
+    private GameObject fishingRod;
     public bool isGroomingHand;
     public bool isFishing;
 
@@ -51,9 +51,10 @@ public class PlayerUI : MonoBehaviour
         isGroomingHand = !isGroomingHand;
         if (isGroomingHand)
         {
-            groomingHand = Instantiate(handPrefab,
+            groomingHand = ToolManager.instance.SpawnTool(FuncToolType.GroomingHand, new Vector3(player.transform.position.x, 3, player.transform.position.z - 5), Quaternion.identity);
+                /*Instantiate(handPrefab,
                                 new Vector3(player.transform.position.x, 3, player.transform.position.z - 5),
-                                Quaternion.identity);
+                                Quaternion.identity); // 툴 매니저로*/
         }
         else
         {
@@ -69,9 +70,13 @@ public class PlayerUI : MonoBehaviour
         {
             CameraManager.instance.ShowFishingView();
             groomingButton.interactable = false;
+            fishingRod = ToolManager.instance.SpawnTool(FuncToolType.FishingRod, new Vector3(24, 0.52f, -40), Quaternion.Euler(317, 191, 270));
         }
         else
+        {
             CameraManager.instance.ShowMainView();
+            Destroy(fishingRod);
+        }
     }
 
     public void SetTalk(bool TorF)

@@ -10,7 +10,6 @@ public class FishingPlace : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerUI.instance.SetFishingOK(true);
-            Debug.Log("ok");
             player = other.gameObject;
         }
     }
