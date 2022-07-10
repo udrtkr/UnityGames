@@ -70,7 +70,7 @@ public class PlayerUI : MonoBehaviour
         {
             CameraManager.instance.ShowFishingView();
             groomingButton.interactable = false;
-            fishingRod = ToolManager.instance.SpawnTool(FuncToolType.FishingRod, new Vector3(24, 0.52f, -40), Quaternion.Euler(317, 191, 270));
+            fishingRod = ToolManager.instance.SpawnTool(FuncToolType.FishingRod, new Vector3(24, 0.52f, -40), Quaternion.identity);
         }
         else
         {
