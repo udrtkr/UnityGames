@@ -104,6 +104,7 @@ public class FishingRod : MonoBehaviour
             timer = Random.Range(5f, 1f);
 
         }
+        // ¹°°í±â À§·Î Çª½¹ ÆÄ½¹
     }
 
     
