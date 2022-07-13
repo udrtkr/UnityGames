@@ -26,6 +26,7 @@ public class PlayerUI : MonoBehaviour
         instance = this;
 
         fishingButton.interactable = false;
+
     }
 
     public void SetGroomingOk(bool isIdle) // 플레이어컨트롤에서 isIdle 일 때, isGroomingOk 와 button interact 컨트롤
@@ -49,6 +50,7 @@ public class PlayerUI : MonoBehaviour
     public void SetGroomingHand() // 그루밍 버튼의 온클릭 ==> 그루밍 on
     {
         isGroomingHand = !isGroomingHand;
+        player.GetComponent<PlayerController>().forceStop = isGroomingHand;
         if (isGroomingHand)
         {
             groomingHand = ToolManager.instance.SpawnTool(FuncToolType.GroomingHand, new Vector3(player.transform.position.x, 3, player.transform.position.z - 5), Quaternion.identity);
@@ -66,6 +68,7 @@ public class PlayerUI : MonoBehaviour
     public void SetFishing() // 피싱 버튼 온클릭 ==> 피싱 on 피싱 여부에 따라 카메라 전환 on
     {
         isFishing = !isFishing;
+        player.GetComponent<PlayerController>().forceStop = isFishing;
         if (isFishing)
         {
             CameraManager.instance.ShowFishingView();
@@ -81,6 +84,7 @@ public class PlayerUI : MonoBehaviour
 
     public void SetTalk(bool TorF)
     {
+        player.GetComponent<PlayerController>().forceStop = TorF;
         TalkPanel.SetActive(TorF);
         if (TorF)
         {

@@ -93,10 +93,10 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3527919270657827498}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7206472575975855354, guid: 7454e17b283ddd442a3b5bdd48b7f86f, type: 3}
 --- !u!95 &8910583675963304003
@@ -144,3 +144,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnFish: 0
+  UpFish: 0
+  timer: 0
+  touchNum: 0
+  rodState: 0
+  UpFishTime: 0
+  v: 10
+  a: -5

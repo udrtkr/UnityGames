@@ -112,4 +112,5 @@ MonoBehaviour:
   fishType: 3
   fishName: "\uD2B9\uAD11\uC5B4"
   percent: 2
+  touchNum: 7
   sellPrice: 0

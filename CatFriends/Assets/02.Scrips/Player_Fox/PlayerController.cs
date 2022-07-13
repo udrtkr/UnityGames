@@ -18,15 +18,9 @@ public class PlayerController : MonoBehaviour
     private Collider col;
     private BoxCollider bcol; 
     private float isMoveValue = 0.2f; // 움직일 수 있는 최소 move 벡터 크기
-    public bool isUnderTheSea;
+    private bool isUnderTheSea;
     private float gravity = -9.81f;
     private float restStartTime = 6f;
-
-    public bool forceStop;
-
-    [Header("States")] //[Serialfield]
-    public PlyaerState plyaerState;
-    public JumpState jumpState;
     private float horiz // Horizontal
     {
         get { return forceStop ? 0 : Input.GetAxis("Horizontal"); ; }
@@ -40,6 +34,13 @@ public class PlayerController : MonoBehaviour
         get { return Mathf.Sqrt(horiz * horiz + verti * verti) > isMoveValue ? true : false; }
     }
 
+    public bool forceStop;
+
+
+    [Header("States")]
+    public PlyaerState plyaerState;
+    public JumpState jumpState;
+    
 
 
     private void Awake()
@@ -99,7 +100,9 @@ public class PlayerController : MonoBehaviour
 
         // PlayerUI 
         PlayerUI.instance.SetGroomingOk(!isMoveOk);
-        if (PlayerUI.instance.isGroomingHand || PlayerUI.instance.isFishing) // 그루밍 중일때, 낚시중일때
+        if (PlayerUI.instance.isGroomingHand ||
+            PlayerUI.instance.isFishing ||
+            FriendsUI.instance.isTalk) // 그루밍 중일때, 낚시중일때, 대화중일 때
         {
             playerAnimator.SetBool("IsIdle", false); // 이땐 강제로 isIdle false 로 
             playerAnimator.SetBool("IsGrooming", true);
@@ -111,12 +114,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // FriendUI
-        if (FriendsUI.instance.isTalk || PlayerUI.instance.isGroomingHand || PlayerUI.instance.isFishing)
-            forceStop = true;
-        else
-        {
-            forceStop = false;
-        }
+
 
     }
 

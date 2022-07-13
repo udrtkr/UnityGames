@@ -15,11 +15,15 @@ public class FishingRod : MonoBehaviour
     public float timer;
     private float inFishTime = 5f;
     public int touchNum;
-    private int sucessTouchNum = 5; // 물고기마다 다르게
+    private int sucessTouchNum; // 물고기마다 다르게
     private Animator animator;
     public RodState rodState;
     public float UpFishTime;
+    public float v;
+    public float a;
     //물고기 매니지 머시기 하나 만들어서 물고기 오브젝트 데려와 터치횟수 다르게
+
+    private GameObject fish;
 
 
     private void Awake()
@@ -90,8 +94,11 @@ public class FishingRod : MonoBehaviour
     {
         animator.SetBool("UpFish", true);
         
-        if(timer > 0)
+
+        if (timer > 0)
         {
+            if(timer >= 0.2f)
+                getFish();  
             timer -= Time.deltaTime;
         }
         else
@@ -106,8 +113,12 @@ public class FishingRod : MonoBehaviour
         }
         // 물고기 위로 푸슝 파슝
     }
+    private void getFish() // UpFishing 에서 사용
+    {
+        v += a * Time.deltaTime;
+        fish.GetComponent<Transform>().position += new Vector3(0, v, 0) * Time.deltaTime;
+    }
 
-    
 
     private void UpdateRodState()
     {
@@ -119,31 +130,41 @@ public class FishingRod : MonoBehaviour
                 {
                     rodState++;
                     timer = inFishTime;
+                    fish = FishSpawner.instance.SpawnRandomFish();
+                    sucessTouchNum = fish.GetComponent<Fish>().touchNum;
                 }
                 break;
             case RodState.OnFish:
                 OnFishing();
-                if (UpFish)
+                if (UpFish) // 낚시 성공, Upfish 상태로 갈 때
                 {
                     rodState++;
                     timer = UpFishTime;
+                    v = 20f; a = -30f; // 물고기 움직이는 속도 지정
+                    // v = 5f; a = 1f;
                 }
-                if (!OnFish)
+                if (!OnFish) // 시간 초과, idle로 돌아갈 때
                 {
                     rodState--;
                     timer = Random.Range(10f, 10f);
+                    Destroy(fish);
+                    //fish = null;
                 }
                 break;
             case RodState.UpFish:
                 UpFishing();
-                if (!UpFish)
+                if (!UpFish) // 낚은 후 idle로 돌아갈 때
                 {
                     rodState = RodState.Idle;
                     timer = Random.Range(10f, 10f);
+                    // 타이머 시간만큼 fish 위로 방
+                    Destroy(fish);
                 }
                 break;
         }
     }
+
+    
 
     public enum RodState
     {
@@ -165,12 +186,6 @@ public class FishingRod : MonoBehaviour
         }
         return time;
     }
-    /*
-    private void Fishing()  // 물고기ㅣ 걸렸을 때 그 터치스크린? 에 온클릭
-    {
-        if(OnFish)
-    }
-    */
 
 
 }
