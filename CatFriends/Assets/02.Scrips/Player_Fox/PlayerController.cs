@@ -168,10 +168,16 @@ public class PlayerController : MonoBehaviour
             case JumpState.Idle:
                 break;
             case JumpState.Prepare:
+                // 점프 시작
+                // 타이머 설정
+                // y 축 속도 0으로
+                jumpState++;
                 break;
             case JumpState.Casting:
+                // 그라운드에 닿으면 ++
                 break;
             case JumpState.OnAction:
+                // 지면과 거리 계산 후 animation 재생
                 break;
             case JumpState.Finish:
                 break;
