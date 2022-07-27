@@ -14,6 +14,11 @@ public class TalkPanel : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
+    private void SetTalkPanel(FriendType friendType)
+    {
+        // ¾Æ´Ï ¶… ¸Å´ÏÀú¿¡¼­ °Á ÇÁ·»µå Á¤º¸´Â ÇÑ¹ø¸¸ °¡Àú¿À°Ô ÇØº¸Àð±Ã
+    }
     public void SetName() => Name.text = friendInfo.frirendName;
 
 }
