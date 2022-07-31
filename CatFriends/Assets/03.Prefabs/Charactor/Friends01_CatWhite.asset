@@ -16,3 +16,5 @@ MonoBehaviour:
   frirendName: "\uD770\uB465\uC774"
   frirendDescription: "\uD770\uB465\uC774"
   frirendTitle: CatWhite
+  idTalk: 1
+  talkDataName: TalkData_CatWhite

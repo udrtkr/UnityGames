@@ -16,3 +16,5 @@ MonoBehaviour:
   frirendName: "\uB0E5\uC778\uC904\uC544\uB294\uD638\uB791\uC774"
   frirendDescription: "\uB0E5\uC778\uC904\uC544\uB294\uD638\uB791\uC774"
   frirendTitle: TIger
+  idTalk: 1
+  talkDataName: TalkData_Tiger

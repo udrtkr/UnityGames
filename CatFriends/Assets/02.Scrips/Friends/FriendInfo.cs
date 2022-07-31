@@ -9,8 +9,8 @@ public class FriendInfo : ScriptableObject
     public string frirendName;
     public string frirendDescription;
     public string frirendTitle;
-
-
+    public int idTalk;
+    public string talkDataName;
 }
 public enum FriendType
 {

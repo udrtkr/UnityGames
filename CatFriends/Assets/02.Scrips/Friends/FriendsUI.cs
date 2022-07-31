@@ -44,6 +44,7 @@ public class FriendsUI : MonoBehaviour
         instance.Clear();
         PlayerUI.instance.friendInfo = friendInfo; // talk클릭 시 플레이어UI에 정보 전달해서 대화 ㄱ
         PlayerUI.instance.SetTalk(TorF);
+        TalkManager.instance.GetTalkData(friendInfo);
     }
 
 }

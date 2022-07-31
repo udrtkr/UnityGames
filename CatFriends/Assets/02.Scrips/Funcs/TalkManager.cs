@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class TalkManager : MonoBehaviour
+public class TalkManager : MonoBehaviour, IPointerClickHandler
 {
     private static TalkManager _instance;
     public static TalkManager instance
@@ -15,24 +17,35 @@ public class TalkManager : MonoBehaviour
         }
     }
 
-    Dictionary<int, string[]> talkData_CatWhite = new Dictionary<int, string[]>();
+    [SerializeField] private Text Story;
+    private int idx;
+    private string thema; // 
+
+    List<Dictionary<string, object>> talkData = new List<Dictionary<string, object>>(); // 상황에 맞게 csv 데이터 가져옴, 형식은 data[listindex]["dictionaryKey=csv의 열 0번째"]
 
     private void Awake()
     {
-        Make_talkData_CatWhite();
+    }
+    
+    public void GetTalkData(FriendInfo friendInfo) // 버튼 눌렀을 때 가저와보자
+    {
+        talkData = CSVReader.Read("TalkData/" + friendInfo.talkDataName);
+        thema = friendInfo.idTalk.ToString();
+        
+    }
+    public string GetTalk(int talkIndex)
+    {
+        return talkData[talkIndex][thema].ToString(); 
     }
 
-    private void Make_talkData_CatWhite()
+    public void SetStoryText(FriendInfo friendInfo)
     {
-        talkData_CatWhite.Add(1, new string[] { "안녕, 나는...", "...이후로 말이 없다..." });
-        talkData_CatWhite.Add(2, new string[] {"나를 소개할게...", "어라?" });
+        Story.text = talkData[idx][friendInfo.idTalk.ToString()].ToString();
     }
 
-    public string GetTalk(FriendType friendType, int id, int talkIndex)
+    public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (friendType == FriendType.CatWhite)
-            return talkData_CatWhite[id][talkIndex];
-        else
-            return "";
+        idx++;
+        // 즐찾참고 프렌드 인포 그 다른데서 가져오자 어디엿지 먼 유야이에서
     }
 }

@@ -16,3 +16,5 @@ MonoBehaviour:
   frirendName: "\uC5BC\uB8E9\uB0E5"
   frirendDescription: "\uC5BC\uB8E9\uB0E5"
   frirendTitle: CatAluc
+  idTalk: 1
+  talkDataName: TalkData_CatAluc
