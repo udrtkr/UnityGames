@@ -112,6 +112,8 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("IsGrooming", false); // 그루밍 아닐 땐 플레이어의 Move에 따라 isIdle t/f 결정
             
         }
+        if(Input.GetKey(KeyCode.Escape))
+            PlayerUI.instance.SetGroomingHandOff();
 
         // FriendUI
 

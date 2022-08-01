@@ -28,7 +28,8 @@ public class PlayerUI : MonoBehaviour
         fishingButton.interactable = false;
 
     }
-
+    // 새총도 그루밍하구 비슷하게, UI off 일 때 커서 없어짐, 메인 카메라 커서에 따라 움직이게 최대 최소 정해서
+    // 그루밍은 커서 없어짐, 커서에 따라 핸드 움직이게
     public void SetGroomingOk(bool isIdle) // 플레이어컨트롤에서 isIdle 일 때, isGroomingOk 와 button interact 컨트롤
     {
         if (isIdle)
@@ -49,20 +50,22 @@ public class PlayerUI : MonoBehaviour
 
     public void SetGroomingHand() // 그루밍 버튼의 온클릭 ==> 그루밍 on
     {
-        isGroomingHand = !isGroomingHand;
-        player.GetComponent<PlayerController>().forceStop = isGroomingHand;
+        if(!isGroomingHand)
+            isGroomingHand = true;
+        player.GetComponent<PlayerController>().forceStop = true;
+        
+        groomingHand = ToolManager.instance.SpawnTool(FuncToolType.GroomingHand, new Vector3(player.transform.position.x, 3, player.transform.position.z - 5), Quaternion.identity);
+        gameObject.SetActive(false);
+        
+    }
+    public void SetGroomingHandOff() // 플레이어 컨트롤에서 esc 키 눌렀을 때 원래대로
+    {
         if (isGroomingHand)
-        {
-            groomingHand = ToolManager.instance.SpawnTool(FuncToolType.GroomingHand, new Vector3(player.transform.position.x, 3, player.transform.position.z - 5), Quaternion.identity);
-                /*Instantiate(handPrefab,
-                                new Vector3(player.transform.position.x, 3, player.transform.position.z - 5),
-                                Quaternion.identity); // 툴 매니저로*/
-        }
-        else
-        {
-            // 일어날 시간까지 forcestop true로
-            Destroy(groomingHand);
-        }
+            isGroomingHand = false;
+        player.GetComponent<PlayerController>().forceStop = true;
+        Destroy(groomingHand);
+        gameObject.SetActive(true);
+
     }
 
     public void SetFishing() // 피싱 버튼 온클릭 ==> 피싱 on 피싱 여부에 따라 카메라 전환 on
@@ -90,6 +93,7 @@ public class PlayerUI : MonoBehaviour
         {
             TalkPanel.GetComponent<TalkPanel>().friendInfo = friendInfo;
             TalkPanel.GetComponent<TalkPanel>().SetName();
+            TalkManager.instance.GetTalkData(friendInfo);
             // TalkPanel.GetComponentInChildren<Text>().text = friendInfo.frirendName;
         }
     }

@@ -9,8 +9,6 @@ public class TalkPanel : MonoBehaviour
     public FriendInfo friendInfo;
     [SerializeField] private Text Name;
     
-    private int idx = 1;
-    private int leng = 0;
 
     private void Awake()
     {

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+/// <summary>
+/// 나중에
+/// </summary>
 public class TalkManager : MonoBehaviour, IPointerClickHandler
 {
     private static TalkManager _instance;
@@ -17,7 +19,8 @@ public class TalkManager : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    [SerializeField] private Text Story;
+    public GameObject talkPanel;
+    public Text story;
     private int idx;
     private string thema; // 
 
@@ -31,21 +34,27 @@ public class TalkManager : MonoBehaviour, IPointerClickHandler
     {
         talkData = CSVReader.Read("TalkData/" + friendInfo.talkDataName);
         thema = friendInfo.idTalk.ToString();
-        
+        Debug.Log(talkData[idx][thema]);
+        SetStoryText();
     }
     public string GetTalk(int talkIndex)
     {
         return talkData[talkIndex][thema].ToString(); 
     }
 
-    public void SetStoryText(FriendInfo friendInfo)
+    public void SetStoryText()
     {
-        Story.text = talkData[idx][friendInfo.idTalk.ToString()].ToString();
+        story.text = talkData[idx][thema].ToString();
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         idx++;
-        // 즐찾참고 프렌드 인포 그 다른데서 가져오자 어디엿지 먼 유야이에서
+        if (idx >= talkData.Count)
+        {
+            PlayerUI.instance.SetTalk(false);
+            idx = 0;
+        }
+        SetStoryText();
     }
 }
