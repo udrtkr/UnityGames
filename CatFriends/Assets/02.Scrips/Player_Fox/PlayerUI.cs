@@ -50,38 +50,46 @@ public class PlayerUI : MonoBehaviour
 
     public void SetGroomingHand() // 그루밍 버튼의 온클릭 ==> 그루밍 on
     {
-        if(!isGroomingHand)
+        if (!isGroomingHand)
+        {
             isGroomingHand = true;
-        player.GetComponent<PlayerController>().forceStop = true;
-        
-        groomingHand = ToolManager.instance.SpawnTool(FuncToolType.GroomingHand, new Vector3(player.transform.position.x, 3, player.transform.position.z - 5), Quaternion.identity);
-        gameObject.SetActive(false);
+            player.GetComponent<PlayerController>().forceStop = true;
+            groomingHand = ToolManager.instance.SpawnTool(FuncToolType.GroomingHand, new Vector3(player.transform.position.x, 3, player.transform.position.z - 5), Quaternion.identity);
+            gameObject.SetActive(false);
+        }
         
     }
     public void SetGroomingHandOff() // 플레이어 컨트롤에서 esc 키 눌렀을 때 원래대로
     {
         if (isGroomingHand)
+        {
             isGroomingHand = false;
-        player.GetComponent<PlayerController>().forceStop = true;
-        Destroy(groomingHand);
-        gameObject.SetActive(true);
-
+            player.GetComponent<PlayerController>().forceStop = false;
+            Destroy(groomingHand);
+            gameObject.SetActive(true);
+        }
     }
 
     public void SetFishing() // 피싱 버튼 온클릭 ==> 피싱 on 피싱 여부에 따라 카메라 전환 on
     {
-        isFishing = !isFishing;
-        player.GetComponent<PlayerController>().forceStop = isFishing;
+        if (!isFishing)
+        {
+            isFishing = true;
+            player.GetComponent<PlayerController>().forceStop = true;
+            CameraManager.instance.ShowFishingView();
+            fishingRod = ToolManager.instance.SpawnTool(FuncToolType.FishingRod, new Vector3(24, 0.52f, -40), Quaternion.identity);
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void SetFishingOff()
+    {
         if (isFishing)
         {
-            CameraManager.instance.ShowFishingView();
-            groomingButton.interactable = false;
-            fishingRod = ToolManager.instance.SpawnTool(FuncToolType.FishingRod, new Vector3(24, 0.52f, -40), Quaternion.identity);
-        }
-        else
-        {
+            isFishing = false;
             CameraManager.instance.ShowMainView();
             Destroy(fishingRod);
+            gameObject.SetActive(true);
         }
     }
 
