@@ -6670,6 +6670,7 @@ GameObject:
   - component: {fileID: 970375269}
   - component: {fileID: 970375268}
   - component: {fileID: 970375272}
+  - component: {fileID: 970375273}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -6780,6 +6781,18 @@ MonoBehaviour:
   TalkPanel: {fileID: 1577735731}
   isGroomingHand: 0
   isFishing: 0
+--- !u!114 &970375273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970375267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3915d7a82848034d9063636745c4f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &977014198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 803019497602220625, guid: e1eaa02314a382d4193af3de770677f6, type: 3}
@@ -11104,7 +11117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tools:
-  - {fileID: 4760393494662033011, guid: aef24c1b756466841b21ee5fdf07df35, type: 3}
+  - {fileID: 7418299151885746165, guid: aef24c1b756466841b21ee5fdf07df35, type: 3}
   - {fileID: 3527919270657827498, guid: 23f31d065789fef46939174133491b96, type: 3}
 --- !u!1 &1687017543
 GameObject:
