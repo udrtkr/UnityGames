@@ -6,31 +6,41 @@ public class ESP_Map : MonoBehaviour
 {
     public LayerMask card;
     public bool isIn;
-    public ESPcardType cardtype;
     public GameObject Incard;
-    private void OnTriggerStay(Collider other)
+    public int cardid;
+
+
+    private void OnTriggerEnter(Collider other)
     {
         if (!isIn)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Card"))
-            {
-                if (Input.GetMouseButtonUp(0))
-                {
-                    other.gameObject.transform.Translate(gameObject.transform.position, Space.World);
-                    isIn = true;
-                    cardtype = other.GetComponent<ESP_Card>().cardType;
-                    Incard = other.GetComponent<GameObject>();
-                }
-            }
+            Incard = other.gameObject;
+            cardid = Incard.GetComponent<ESP_Card>().CardID;
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!isIn)
+        {
+            Incard = null;
+            cardid = 0;
+        }
+    }
+
+    public void Clear()
+    {
+        isIn = false;
+        Incard = null;
     }
 
     private void Update()
     {
-        /*
-        if(Incard != null)
-            Incard.transform.position = gameObject.transform.position;
-        */
+        if(Incard != null && Input.GetMouseButtonUp(0))
+        {
+            Incard.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.01f, gameObject.transform.position.z);
+            isIn = true;
+        }
     }
 }
 
