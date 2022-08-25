@@ -8,6 +8,7 @@ public class ESP_Map : MonoBehaviour
     public bool isIn;
     public GameObject Incard;
     public int cardid;
+    public int mapid;
 
 
     private void OnTriggerEnter(Collider other)
@@ -40,6 +41,7 @@ public class ESP_Map : MonoBehaviour
         if(Incard != null && Input.GetMouseButtonUp(0))
         {
             Incard.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.01f, gameObject.transform.position.z);
+            ESPManager.Instance.SetResult_Player(mapid, cardid);
             isIn = true;
         }
     }

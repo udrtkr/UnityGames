@@ -86,6 +86,8 @@ public class ESPManager : MonoBehaviour
     }
     IEnumerator E_SetDealerAndOppCard()
     {
+        yield return new WaitForSeconds(1);
+
         int idx = 0;
         while (idx < 5)
         {
@@ -204,11 +206,6 @@ public class ESPManager : MonoBehaviour
 
     private void Update()
     {
-        for(int i = 0; i < result_Player.Length; i++) // 함수로 빼서
-        {
-            result_Player[i] = ESP_Maps[i].GetComponent<ESP_Map>().cardid;
-        }
-
         if (!result_Player.Contains(0))
         {
             BetButton.interactable = true;
@@ -217,6 +214,11 @@ public class ESPManager : MonoBehaviour
         {
             BetButton.interactable = false;
         }
+    }
+
+    public void SetResult_Player(int mapid, int cardid)
+    {
+        result_Player[mapid] = cardid;
     }
     public void ResetESP() // 리셋 누를 때
     {
