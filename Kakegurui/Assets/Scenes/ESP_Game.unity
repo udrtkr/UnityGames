@@ -248,6 +248,7 @@ MonoBehaviour:
   isIn: 0
   Incard: {fileID: 0}
   cardid: 0
+  mapid: 4
 --- !u!114 &153924328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +267,7 @@ MonoBehaviour:
   isIn: 0
   Incard: {fileID: 0}
   cardid: 0
+  mapid: 3
 --- !u!114 &153924329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +286,7 @@ MonoBehaviour:
   isIn: 0
   Incard: {fileID: 0}
   cardid: 0
+  mapid: 2
 --- !u!114 &153924330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +305,7 @@ MonoBehaviour:
   isIn: 0
   Incard: {fileID: 0}
   cardid: 0
+  mapid: 1
 --- !u!114 &153924331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +324,7 @@ MonoBehaviour:
   isIn: 0
   Incard: {fileID: 0}
   cardid: 0
+  mapid: 0
 --- !u!1 &203832084
 GameObject:
   m_ObjectHideFlags: 0
