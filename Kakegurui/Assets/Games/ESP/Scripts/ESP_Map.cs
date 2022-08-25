@@ -36,6 +36,7 @@ public class ESP_Map : MonoBehaviour
 
     private void Update()
     {
+        
         if(Incard != null && Input.GetMouseButtonUp(0))
         {
             Incard.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.01f, gameObject.transform.position.z);

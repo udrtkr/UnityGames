@@ -8,7 +8,7 @@ public class ESP_Card_Handler : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if(ESPManager.Instance.moveOK)
+        if(ESPManager.Instance.moveOK==true)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 카메라에서 레이저 방출
             Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green);
