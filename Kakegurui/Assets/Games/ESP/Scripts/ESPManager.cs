@@ -148,7 +148,6 @@ public class ESPManager : MonoBehaviour
         }
 
         StartCoroutine(DealerCardBack());
-
     }
 
     IEnumerator DealerCardBack()
