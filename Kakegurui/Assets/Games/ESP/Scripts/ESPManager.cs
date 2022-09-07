@@ -88,13 +88,25 @@ public class ESPManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
+        yield return StartCoroutine(E_SetDealerCard());
+        yield return null;
+
+        moveOK = true;
+
+        yield return new WaitForSeconds(1);
+
+        yield return StartCoroutine(E_SetOppCard());
+
+    }
+    IEnumerator E_SetDealerCard()
+    {
         int idx = 0;
         while (idx < 5)
         {
             Vector3 dir = (ESP_Maps_Dealer[idx].transform.position - ESP_Cards_Dealer[result_Dealer[idx] - 1].transform.position + new Vector3(0f, 0.01f, 0)).normalized;
-            ESP_Cards_Dealer[result_Dealer[idx] - 1].transform.position += 0.003f*dir;
+            ESP_Cards_Dealer[result_Dealer[idx] - 1].transform.position += 0.003f * dir;
 
-            if (Vector3.Magnitude(ESP_Maps_Dealer[idx].transform.position - ESP_Cards_Dealer[result_Dealer[idx] - 1].transform.position)< 0.01006f)
+            if (Vector3.Magnitude(ESP_Maps_Dealer[idx].transform.position - ESP_Cards_Dealer[result_Dealer[idx] - 1].transform.position) < 0.01006f)
             {
                 idx++;
                 Debug.Log("ok");
@@ -102,18 +114,17 @@ public class ESPManager : MonoBehaviour
             }
             yield return null;
         }
-
-        moveOK = true;
-        yield return new WaitForSeconds(1);
-
-        for(int i=0; i<result_Opp.Length; i++)
+    }
+    IEnumerator E_SetOppCard()
+    {
+        for (int i = 0; i < result_Opp.Length; i++)
         {
-            ESP_Cards_Opp[result_Opp[i]-1].transform.position = ESP_Maps_Opp[i].transform.position;
+            ESP_Cards_Opp[result_Opp[i] - 1].transform.position = ESP_Maps_Opp[i].transform.position;
 
             yield return new WaitForSeconds(1f);
         }
-
     }
+
     public void BetClick()
     {
         int playerScore = 0;
