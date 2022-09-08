@@ -34,12 +34,14 @@ public class FingerScaffoldManager : MonoBehaviour
     public GameObject ropesObject;
     public GameObject[] ropes;
     public int ropeNum;
-    private int[] remainRopefirst = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+    private int[] remainRopeInit = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
     public List<int> remainRope; // 남은 밧줄 저장
 
 
     // 손가락 넣/뺗 f/t 배열
-    private bool[] finout= new bool[0]; // 0:player 1:opp1 2:opp2 이 조건 이용해서 턴 오는지 안오는지
+    private bool[] Handout= new bool[3]; // 0:player 1:opp1 2:opp2 이 조건 이용해서 턴 오는지 안오는지
+    private int HandoutPercent = 3;
+    public GameObject[] CharsHands = new GameObject[3]; // 0:player 1:opp1 2:opp2 손 올리게 할때 사용
 
     public int ropeNumRan = -1;
 
@@ -65,31 +67,13 @@ public class FingerScaffoldManager : MonoBehaviour
             ropes[i].GetComponent<Rope>().ropeNum = i;
         }
         ropeNumRan = Random.Range(0, ropes.Length);
-        remainRope = new List<int>(remainRopefirst);
+        remainRope = new List<int>(remainRopeInit);
     }
 
-    public void ScaffoldUp_Down()
-    {
-        if (ropeNum == ropeNumRan)
-        {
-            ScaffoldUp.GetComponent<Scaffold_Up>().ScaffoldUp_Down();
-        }
-        else
-            return;
-    }
-
-    IEnumerator E_Precedure() 
-    { 
-        // 코루틴 와일 안에 순서대로 플레이어턴-opp1턴 opp2턴 
-        // 매 턴마다 opp손 뺄지 안뺄지 정함
-        
-
-        yield return null;
-    }
-    
     IEnumerator E_PlayerTurn()
     {
         // yield break; 코루틴 빠져나오기
+        yield return new WaitUntil(() => playerturn == false);
         yield return null;
     }
 
@@ -103,12 +87,65 @@ public class FingerScaffoldManager : MonoBehaviour
     {
         yield return null;
     }
-
-    public void outHandPlayer() // 플레이어가 버튼 누르면
+    public int ChoiceRope_Opp() // Opp에 의한 ropeNum 결정
     {
-
+        int n = Random.Range(0, remainRope.Count);
+        return n;
+    }
+    public void CutRope(int ropeN)
+    {
+        remainRope.Remove(ropeN);
+        ropes[ropeN].SetActive(false);
     }
 
+    public void HandOut_Opp(int i)
+    {
+        int randomNum = Random.Range(1, 100);
+        if (randomNum <= HandoutPercent)
+        {
+            Handout[i] = true;
+        }
+        // 손 드는 모션 +
+    }
+
+    public void Handout_Player() // 플레이어가 버튼 누르면
+    {
+        Handout[1] = true;
+    }
+    public bool GameSet() // 매 플레이어, Opps 턴마다 사용
+    {
+        if ((Handout[0] && Handout[1] && Handout[3]) || remainRope.Count == 0)
+            return true;
+        else
+            return false;
+    }
+
+    IEnumerator E_Precedure() 
+    {
+        // 코루틴 와일 안에 순서대로 플레이어턴-opp1턴 opp2턴 
+        // 매 턴마다 opp손 뺄지 안뺄지 정함, 확률 up
+        while (true)
+        {
+
+            HandoutPercent++;
+        }
+
+        yield return null;
+        // 여기는 순위 나오게
+    }
+    
+    
+
+
+    public void ScaffoldUp_Down()
+    {
+        if (ropeNum == ropeNumRan)
+        {
+            ScaffoldUp.GetComponent<Scaffold_Up>().ScaffoldUp_Down();
+        }
+        else
+            return;
+    }
 
     public void ResetScaffold()
     {
@@ -118,6 +155,6 @@ public class FingerScaffoldManager : MonoBehaviour
             ropes[i].SetActive(true);
         }
         ropeNumRan = Random.Range(0, ropes.Length);
-        remainRope = new List<int>(remainRopefirst);
+        remainRope = new List<int>(remainRopeInit);
     }
 }

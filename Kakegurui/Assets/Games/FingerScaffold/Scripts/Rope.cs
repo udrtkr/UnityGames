@@ -31,10 +31,10 @@ public class Rope : MonoBehaviour
     {
         if (FingerScaffoldManager.instance.playerturn)
         {
-            this.gameObject.SetActive(false);
+            FingerScaffoldManager.instance.CutRope(ropeNum);
             FingerScaffoldManager.instance.ropeNum = ropeNum;
             FingerScaffoldManager.instance.ScaffoldUp_Down();
-            // FingerScaffoldManager.instance.playerturn = false;
+            FingerScaffoldManager.instance.playerturn = false;
         }
     }
     private void Start()
