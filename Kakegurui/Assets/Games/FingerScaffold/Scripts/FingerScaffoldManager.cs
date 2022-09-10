@@ -72,21 +72,44 @@ public class FingerScaffoldManager : MonoBehaviour
 
     IEnumerator E_PlayerTurn()
     {
+        playerturn = true;
         // yield break; 코루틴 빠져나오기
         yield return new WaitUntil(() => playerturn == false);
+        HandoutPercent++;
         yield return null;
     }
 
-    IEnumerator E_Opp1Turn()
+    IEnumerator E_OppTurn(int OppNum)
     {
+        if (Handout[OppNum])
+            yield break;
+        int num = ChoiceRope_Opp();
+        yield return new WaitForSeconds(1); // 손가락을 로프쪽으로 가리키게
+        CutRope(num);
         yield return null;
+        HandoutPercent++;
+        // 손가락 위치 원래대로
         // waituntil 사용 일드리턴 뒤
-    }
 
-    IEnumerator E_Opp2Turn()
+    }
+    IEnumerator HandUp_Opp(int idx) // 실행 전 Handout true 아닐때만 확인하고
     {
+        if (!Handout[idx])
+        {
+            if (HandOut_Opp())
+            {
+                Handout[idx] = true;
+                // 손 빼는 모션 while안에 
+                Destroy(CharsHands[idx]);
+                yield return null;
+                // 손 뺀 list에 추가
+            }
+        }
+        else
+            yield break;
         yield return null;
     }
+
     public int ChoiceRope_Opp() // Opp에 의한 ropeNum 결정
     {
         int n = Random.Range(0, remainRope.Count);
@@ -98,19 +121,22 @@ public class FingerScaffoldManager : MonoBehaviour
         ropes[ropeN].SetActive(false);
     }
 
-    public void HandOut_Opp(int i)
+    public bool HandOut_Opp()
     {
         int randomNum = Random.Range(1, 100);
         if (randomNum <= HandoutPercent)
         {
-            Handout[i] = true;
+            return true;
         }
+        else
+            return false;
         // 손 드는 모션 +
     }
 
     public void Handout_Player() // 플레이어가 버튼 누르면
     {
-        Handout[1] = true;
+        Handout[0] = true;
+        // 손가락 빼는거 모션
     }
     public bool GameSet() // 매 플레이어, Opps 턴마다 사용
     {
@@ -126,8 +152,21 @@ public class FingerScaffoldManager : MonoBehaviour
         // 매 턴마다 opp손 뺄지 안뺄지 정함, 확률 up
         while (true)
         {
-
-            HandoutPercent++;
+            yield return StartCoroutine(E_PlayerTurn());
+            yield return null;
+            //StartCoroutine(HandUp_Opp(1));
+            //StartCoroutine(HandUp_Opp(2));
+            yield return new WaitForSeconds(1);
+            yield return StartCoroutine(E_OppTurn(1));
+            yield return null;
+            StartCoroutine(HandUp_Opp(1));
+            StartCoroutine(HandUp_Opp(2));
+            yield return new WaitForSeconds(1);
+            yield return StartCoroutine(E_OppTurn(2));
+            StartCoroutine(HandUp_Opp(1));
+            StartCoroutine(HandUp_Opp(2));
+            yield return new WaitForSeconds(1);
+            // HandoutPercent++;
         }
 
         yield return null;
