@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 줄 20개 중 첨에 끊어질 줄 랜덤으로 정함 0-19
@@ -43,6 +44,8 @@ public class FingerScaffoldManager : MonoBehaviour
     private int HandoutPercent = 3;
     public GameObject[] CharsHands = new GameObject[3]; // 0:player 1:opp1 2:opp2 손 올리게 할때 사용
 
+    public GameObject[] OppHands = new GameObject[2];
+
     public int ropeNumRan = -1;
 
     private void Awake()
@@ -68,6 +71,8 @@ public class FingerScaffoldManager : MonoBehaviour
         }
         ropeNumRan = Random.Range(0, ropes.Length);
         remainRope = new List<int>(remainRopeInit);
+
+        StartCoroutine(E_Precedure());
     }
 
     IEnumerator E_PlayerTurn()
@@ -83,10 +88,15 @@ public class FingerScaffoldManager : MonoBehaviour
     {
         if (Handout[OppNum])
             yield break;
-        int num = ChoiceRope_Opp();
-        yield return new WaitForSeconds(1); // 손가락을 로프쪽으로 가리키게
-        CutRope(num);
+        ropeNum = ChoiceRope_Opp();
+        OppHandMove oppHandMove = OppHands[OppNum].GetComponent<OppHandMove>();
+        oppHandMove.HandMove(ropes[ropeNum].transform.position); // 손가락을 로프쪽으로 가리키게
+        yield return new WaitUntil(() => oppHandMove.cutOK);
+        yield return new WaitForSeconds(0.5f);
+        CutRope(ropeNum);
         yield return null;
+        ScaffoldUp_Down();
+        oppHandMove.ResetHand();
         HandoutPercent++;
         // 손가락 위치 원래대로
         // waituntil 사용 일드리턴 뒤
@@ -100,7 +110,7 @@ public class FingerScaffoldManager : MonoBehaviour
             {
                 Handout[idx] = true;
                 // 손 빼는 모션 while안에 
-                Destroy(CharsHands[idx]);
+                CharsHands[idx].SetActive(false);
                 yield return null;
                 // 손 뺀 list에 추가
             }
@@ -140,7 +150,14 @@ public class FingerScaffoldManager : MonoBehaviour
     }
     public bool GameSet() // 매 플레이어, Opps 턴마다 사용
     {
-        if ((Handout[0] && Handout[1] && Handout[3]) || remainRope.Count == 0)
+        int outnum = 0;
+
+        for(int i = 0; i < Handout.Length; i++)
+        {
+            if (Handout[i])
+                outnum++;
+        }
+        if ((outnum >= 2 || remainRope.Count == 0)
             return true;
         else
             return false;
@@ -154,22 +171,27 @@ public class FingerScaffoldManager : MonoBehaviour
         {
             yield return StartCoroutine(E_PlayerTurn());
             yield return null;
-            //StartCoroutine(HandUp_Opp(1));
-            //StartCoroutine(HandUp_Opp(2));
-            yield return new WaitForSeconds(1);
+            StartCoroutine(HandUp_Opp(1));
+            StartCoroutine(HandUp_Opp(2));
+            yield return new WaitForSeconds(3);
+            if (GameSet())
+                break;
             yield return StartCoroutine(E_OppTurn(1));
             yield return null;
             StartCoroutine(HandUp_Opp(1));
             StartCoroutine(HandUp_Opp(2));
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
+            if (GameSet())
+                break;
             yield return StartCoroutine(E_OppTurn(2));
             StartCoroutine(HandUp_Opp(1));
             StartCoroutine(HandUp_Opp(2));
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
+            if (GameSet())
+                break;
             // HandoutPercent++;
         }
-
-        yield return null;
+        // 칼 떨어졌는데 손 true 면 손가락 잘리게
         // 여기는 순위 나오게
     }
     
@@ -181,6 +203,7 @@ public class FingerScaffoldManager : MonoBehaviour
         if (ropeNum == ropeNumRan)
         {
             ScaffoldUp.GetComponent<Scaffold_Up>().ScaffoldUp_Down();
+            // 칼 떨어졌는데 손 true 면 손가락 잘리게
         }
         else
             return;
@@ -195,5 +218,12 @@ public class FingerScaffoldManager : MonoBehaviour
         }
         ropeNumRan = Random.Range(0, ropes.Length);
         remainRope = new List<int>(remainRopeInit);
+
+        for(int i = 0; i < CharsHands.Length; i++)
+        {
+            CharsHands[i].SetActive(true);
+        }
+
+        StartCoroutine(E_Precedure());
     }
 }
