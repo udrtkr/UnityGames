@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// 줄 20개 중 첨에 끊어질 줄 랜덤으로 정함 0-19
-/// 세명 돌아가면서 하씩 끊음
+/// 세명 돌아가면서 하나씩 끊음
 /// 20라운드로 갈수록 상대 Opp 둘 손 빼는 랜덤 확률 높아지게
 /// </summary>
 public class FingerScaffoldManager : MonoBehaviour
@@ -89,18 +89,15 @@ public class FingerScaffoldManager : MonoBehaviour
         if (Handout[OppNum])
             yield break;
         ropeNum = ChoiceRope_Opp();
-        OppHandMove oppHandMove = OppHands[OppNum].GetComponent<OppHandMove>();
-        oppHandMove.HandMove(ropes[ropeNum].transform.position); // 손가락을 로프쪽으로 가리키게
-        yield return new WaitUntil(() => oppHandMove.cutOK);
+
         yield return new WaitForSeconds(0.5f);
         CutRope(ropeNum);
         yield return null;
         ScaffoldUp_Down();
-        oppHandMove.ResetHand();
-        HandoutPercent++;
-        // 손가락 위치 원래대로
-        // waituntil 사용 일드리턴 뒤
 
+        HandoutPercent++;
+
+        Debug.Log("turn" + OppNum);
     }
     IEnumerator HandUp_Opp(int idx) // 실행 전 Handout true 아닐때만 확인하고
     {
@@ -157,7 +154,7 @@ public class FingerScaffoldManager : MonoBehaviour
             if (Handout[i])
                 outnum++;
         }
-        if ((outnum >= 2 || remainRope.Count == 0)
+        if ((outnum >= 2 || remainRope.Count == 0))
             return true;
         else
             return false;
