@@ -45,16 +45,31 @@ public class VoteRSP_Manager : MonoBehaviour
     public GameObject Cam;
 
     public bool SetOK; // 카드 테이블에 세팅 준비 ok
-    public bool SelectOK; // 테이블에서 카드 3개 고를 수 있음
+    public bool SelectOK; // 테이블에서 카드 3개 고를 수 있음 ok
+    public int SelectCardNum = 0;
+    
+    public bool turnOutOK = false;
 
     //private Vector3[] VoteCamTransform = new Vector3[] { new Vector3(0, 1.2f, -0.76f), Vector3.zero }; // 순서대로 position eulerangle
     private Dictionary<string, Vector3> VoteCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0, 1.2f, -0.76f) }, { "eulerAngles", Vector3.zero } };
-    private Dictionary<string, Vector3> PlayCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0.749000013f, 1.35300004f, 0) }, { "eulerAngles", new Vector3(10.158843f, 270, 0f) } };
     private Dictionary<string, Vector3> TableCamTransform = new Dictionary<string, Vector3>() { {"position", new Vector3(0.519f, 1.75f, 0f) }, {"eulerAngles", new Vector3(66, 270, 0) } };
+    private Dictionary<string, Vector3> PlayCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0.749000013f, 1.35300004f, 0) }, { "eulerAngles", new Vector3(10.158843f, 270, 0f) } }; // 플레이어 시점 Cam
     //private Vector3[] PlayCamTransform = new Vector3[] { new Vector3(0.749000013f, 1.35300004f, 0), new Vector3(10.158843f, 270, 0f) }; // 플레이어 시점 Cam
     // Start is called before the first frame update
-    
 
+    private void Reset()
+    {
+        Cam.transform.position = VoteCamTransform["position"];
+        Cam.transform.eulerAngles = VoteCamTransform["eulerAngles"];
+
+        SetOK = false;
+        SelectOK = false;
+        SelectCardNum = 0;
+        turnOutOK = false;
+
+
+        CardsManager.GetComponent<RSPCardsManager>().Reset();
+    }
 
     void Start()
     {
@@ -70,17 +85,11 @@ public class VoteRSP_Manager : MonoBehaviour
         Reset();
     }
 
-    private void Reset()
-    {
-        Cam.transform.position = VoteCamTransform["position"];
-        Cam.transform.eulerAngles = VoteCamTransform["eulerAngles"];
-        
-        CardsManager.GetComponent<CardsManager>().Reset();
-    }
+    
 
     public void StartVote()
     {
-        CardsManager.GetComponent<CardsManager>().VoteCards();
+        CardsManager.GetComponent<RSPCardsManager>().VoteCards();
     }
 
     private void SetCard()
@@ -88,9 +97,13 @@ public class VoteRSP_Manager : MonoBehaviour
         Cam.transform.position = TableCamTransform["position"];
         Cam.transform.eulerAngles = TableCamTransform["eulerAngles"];
 
-        CardsManager.GetComponent<CardsManager>().SetCards();
+        CardsManager.GetComponent<RSPCardsManager>().SetCards();
     }
 
+    public void OppCardsSet()
+    {
+        
+    }
 
 
     // Update is called once per frame
@@ -101,5 +114,22 @@ public class VoteRSP_Manager : MonoBehaviour
             SetOK = false;
             SetCard();
         }
+
+        if(SelectCardNum >= 3)
+        {
+            SelectCardNum = -1;
+            SelectOK = false;
+            // 상대방이 카드 가져가게
+            CardsManager.GetComponent<RSPCardsManager>().OppCardsSetRemain();
+
+            // 플레이어 시점 cam으로 변경
+            // 세 장 중 낼 카드 결정한 후 냄
+            Cam.transform.position = PlayCamTransform["position"];
+            Cam.transform.eulerAngles = PlayCamTransform["eulerAngles"];
+
+            turnOutOK = true; // 플레이어가 한 카드 낼 준비 ok
+        }
+
+       
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// 카드들 매니징해주는 컴포넌트
-/// 여기서 카드 확률 높아지는 것 하나 정함
+/// 여기서 카드 확률 높아지는 것 하나 정함 -> ui 거울로 확인
 /// </summary>
-public class CardsManager : MonoBehaviour
+public class RSPCardsManager : MonoBehaviour
 {
     public GameObject[] cardsArr = new GameObject[30]; // 총 인스턴시에이트 할 카드 갯수
     string[] cardName = new string[]{"Rock", "Scissors", "Paper"}; // 카드 종류 3개 프리팹 주소 뒤에 쓰일 것
@@ -16,8 +16,15 @@ public class CardsManager : MonoBehaviour
     public GameObject voteBox; // 시작 시 카드가 들어갈 voteBox
 
     public GameObject setCardPosition; // 밑의 부모 오브젝트
-
     public Transform[] CardPositionArr; // 테이블 위 카드 위치 담을 배열
+
+    public GameObject ChooseCardPosition; // 밑의 부모 오브젝트
+    public Transform[] ChoosePositionArr; // 테이블에서 뽑은 카드 세 장 transform 담을 배열
+
+    public GameObject[] ChooseCards_Opp = new GameObject[3];
+    public GameObject ChooseCardPosition_Opp; // 밑의 부모 오브젝트
+    public Transform[] ChoosePositionArr_Opp; // 상대방의 테이블에서 뽑은 카드 세 장 transform 담을 배열
+    
 
     private void Awake()
     {
@@ -30,12 +37,26 @@ public class CardsManager : MonoBehaviour
         {
             setCardPosition = GameObject.FindWithTag("SetCardPosition");
         }
+
+        if(ChooseCardPosition == null)
+        {
+            ChooseCardPosition = GameObject.FindWithTag("ChoosePosition");
+        }
+
+        if(ChooseCardPosition_Opp == null)
+        {
+            ChooseCardPosition_Opp = GameObject.FindWithTag("ChoosePosition_Opp");
+        }
     }
     void Start()
     {
-        CardPositionArr = setCardPosition.GetComponentsInChildren<Transform>(); // 이때 0은 자기 자신이므로 1부터
+        CardPositionArr = setCardPosition.GetComponentsInChildren<Transform>(); // 자신도 트랜스폼컴포넌트 ㅇ 이때 0은 자기 자신이므로 1부터
+        ChoosePositionArr = ChooseCardPosition.GetComponentsInChildren<Transform>(); // 이때 0은 자기 자신이므로 1부터
+        ChoosePositionArr_Opp = ChooseCardPosition_Opp.GetComponentsInChildren<Transform>();
         //Reset();
     }
+
+    //objectpool로 바꾸어 자신 sprite만 바꾸게 해보기 
     public void InstantiateCards()
     {
         //처음에 카드 생성 
@@ -84,7 +105,50 @@ public class CardsManager : MonoBehaviour
         yield return null;
     }
 
-    public void Reset() => StartCoroutine(E_Reset());//InstantiateCards();
+    public void SetChooseCardPos(int num, GameObject card)
+    {
+        card.transform.position = ChoosePositionArr[num].transform.position;
+    }
+
+    public void SetChooseCardPos_Opp(int num, GameObject card)
+    {
+        card.transform.position = ChoosePositionArr_Opp[num+1].transform.position; // 이거 문제 x
+        card.transform.eulerAngles = new Vector3(-90, 0, 90);
+    }
+
+    public void OppCardsSetRemain() // 상대방 카드 세개 골라야함
+    {
+        // 카드들 중 선택 안된 애들만 찾아서 list에 넣은 후 랜덤으로 세 개 선택해서 매니저에 전달, 매니저에서 사용해야함
+        List<RSPCard> cards = new List<RSPCard>(GetComponentsInChildren<RSPCard>()); // 카드 컴포넌트 붙은 자식만 데려옴
+
+        List<RSPCard> RemainCards = cards.FindAll(t => t.isChoosed == false); //
+
+        for (int i = 0; i < 3; i++) // 남은 카드들 중 랜덤으로 세 개 선택하여 배열에 저장
+        {
+            int random = UnityEngine.Random.Range(0, RemainCards.Count);
+            ChooseCards_Opp[i] = RemainCards[random].gameObject;
+            RemainCards.RemoveAt(random);
+        }
+
+        // 카드 위치 옮긴 후 낼 카드 선택
+        for (int i = 0; i < ChooseCards_Opp.Length; i++) 
+        {
+            SetChooseCardPos_Opp(i, ChooseCards_Opp[i]); // 여기가 문제 Index was outside the bounds of the array
+        }
+
+        int randomChice = UnityEngine.Random.Range(0, ChooseCards_Opp.Length);
+        // 고른 카드 배열 매니저에 전달
+    }
+
+    public void Reset() 
+    {
+        StartCoroutine(E_Reset());//InstantiateCards();
+
+        for(int i=0; i< ChooseCards_Opp.Length; i++)
+        {
+            ChooseCards_Opp[i] = null;
+        }
+    }
 
     IEnumerator E_Reset()
     {
@@ -104,6 +168,8 @@ public class CardsManager : MonoBehaviour
 
         InstantiateCards();
     }
+
+    
     // Update is called once per frame
     void Update()
     {
