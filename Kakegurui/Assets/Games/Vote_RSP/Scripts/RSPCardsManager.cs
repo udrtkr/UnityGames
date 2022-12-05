@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class RSPCardsManager : MonoBehaviour
 {
-    public GameObject[] cardsArr = new GameObject[30]; // 총 인스턴시에이트 할 카드 갯수
-    string[] cardName = new string[]{"Rock", "Scissors", "Paper"}; // 카드 종류 3개 프리팹 주소 뒤에 쓰일 것
+    public GameObject[] cardsArr = new GameObject[30]; // 총 카드 갯수
+
     string root = "Prefab_VoteRSP/"; // 프리팹 주소
 
     Vector3 VoteEulerAngle =  new Vector3 ( 90, 0, 0); // 처음 오일러앵글
@@ -57,14 +57,28 @@ public class RSPCardsManager : MonoBehaviour
     }
 
     //objectpool로 바꾸어 자신 sprite만 바꾸게 해보기 
-    public void InstantiateCards()
+    public void InstanciateCards() // 한번만 사용
     {
-        //처음에 카드 생성 
-        for(int i = 0; i < cardsArr.Length; i++)
+        if (transform.GetComponentsInChildren<RSPCard>().Length == 0)
+        {
+            //처음에 카드 생성 
+            for (int i = 0; i < cardsArr.Length; i++)
+            {
+                // 인스턴시에이트 위치는 투표함 위
+                //int randomNum = UnityEngine.Random.Range(0, cardName.Length); // 0-2중 하나 랜덤으로 생성
+                cardsArr[i] = Instantiate(Resources.Load(root + "RSP_Card") as GameObject, transform);
+                cardsArr[i].transform.eulerAngles = VoteEulerAngle;
+            }
+        }
+    }
+    public void ResetCards()
+    {
+        //카드 종류 리셋
+        for (int i = 0; i < cardsArr.Length; i++)
         {
             // 인스턴시에이트 위치는 투표함 위
-            int randomNum = UnityEngine.Random.Range(0, cardName.Length); // 0-2중 하나 랜덤으로 생성
-            cardsArr[i] = Instantiate(Resources.Load(root + cardName[randomNum]) as GameObject, transform);
+            int randomNum = UnityEngine.Random.Range(0, 3); // 0-2중 하나 랜덤으로 생성
+            cardsArr[i].GetComponent<RSPCard>().SetRSP(randomNum); // RSPCard에서 자식 스프라이트 설정 메서드 가져옴
             cardsArr[i].transform.eulerAngles = VoteEulerAngle;
         }
     }
@@ -142,31 +156,12 @@ public class RSPCardsManager : MonoBehaviour
 
     public void Reset() 
     {
-        StartCoroutine(E_Reset());//InstantiateCards();
-
         for(int i=0; i< ChooseCards_Opp.Length; i++)
         {
             ChooseCards_Opp[i] = null;
         }
-    }
-
-    IEnumerator E_Reset()
-    {
-        Transform[] child = GetComponentsInChildren<Transform>();
-
-        if(child.Length > 0)
-        {
-            foreach(Transform t in child)
-            {
-                 if (t.gameObject == this.gameObject)
-                    continue;
-                 Destroy(t.gameObject);
-            }
-        }
-
-        yield return null;
-
-        InstantiateCards();
+        InstanciateCards();
+        ResetCards();
     }
 
     

@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RSPCard : MonoBehaviour
 {
     public RSPtype rspType;
+
+    public Sprite[] RSPsprites = new Sprite[3]; // 가위 바위 보 각각 하나씩 스프라이트 담은 배열, 랜덤 결정에 쓰임
+
+    //string[] cardName = new string[] { "Rock", "Scissors", "Paper" }; // 카드 종류 3개 프리팹 주소 뒤에 쓰일 것
+    string root = "Prefab_VoteRSP/"; // 프리팹 주소
 
     private float moveSpeed = 0.025f;
     private Vector3 eulerTableCard = new Vector3 (180,-90,0);
@@ -16,9 +22,27 @@ public class RSPCard : MonoBehaviour
 
     private bool isTurnOut = false;
 
+    private GameObject RSP;
+
+    private void Awake()
+    {
+        RSP = transform.Find("RSP").gameObject;
+        
+        SetRSPsprite();
+    }
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    void SetRSPsprite()
+    {
+        for(int i = 0; i < RSPsprites.Length; i++)
+        {
+            // enum , resouce 이용하여 스프라이트 배열에 넣음
+            RSPsprites[i] = Resources.Load<Sprite>(root + Enum.GetName(typeof(RSPtype),i));
+        }
     }
 
     // Update is called once per frame
@@ -41,6 +65,12 @@ public class RSPCard : MonoBehaviour
         {
             // 세장 중 선택, 위로 약간 올라가게
         }
+    }
+
+    public void SetRSP(int spriteNum)
+    {
+        
+        RSP.GetComponent<SpriteRenderer>().sprite = RSPsprites[spriteNum];
     }
 
     public void MoveToVoteBox(Vector3 voteBox) // voteBox로 카드 이동하는 메서드
