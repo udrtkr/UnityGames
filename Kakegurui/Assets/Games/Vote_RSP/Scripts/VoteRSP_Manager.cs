@@ -46,14 +46,20 @@ public class VoteRSP_Manager : MonoBehaviour
 
     public bool SetOK; // 카드 테이블에 세팅 준비 ok
     public bool SelectOK; // 테이블에서 카드 3개 고를 수 있음 ok
-    public int SelectCardNum = 0;
-    
-    public bool turnOutOK = false;
+    public int SelectCardNum = 0; // 플레이어가 테이블에서 고른 카드 수
+
+    public bool turnOutOK = false; // 플레이어가 turnout할 카드 고를 때
+    public bool isTurnOut = false; // 위의 상황에서 고른 후 true로 변환, 카드를 낼거임
+    public bool ShowResultOK = false; // 모든 상황 끝나고 UI로 결과 보여줄 수 있는지 확인하는 변수
+
+    private int winWho = 0;
 
     //private Vector3[] VoteCamTransform = new Vector3[] { new Vector3(0, 1.2f, -0.76f), Vector3.zero }; // 순서대로 position eulerangle
     private Dictionary<string, Vector3> VoteCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0, 1.2f, -0.76f) }, { "eulerAngles", Vector3.zero } };
     private Dictionary<string, Vector3> TableCamTransform = new Dictionary<string, Vector3>() { {"position", new Vector3(0.519f, 1.75f, 0f) }, {"eulerAngles", new Vector3(66, 270, 0) } };
     private Dictionary<string, Vector3> PlayCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0.749000013f, 1.35300004f, 0) }, { "eulerAngles", new Vector3(10.158843f, 270, 0f) } }; // 플레이어 시점 Cam
+    private Dictionary<string, Vector3> ShowResultCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0, 2.1f, 0) }, {"eulerAngles", new Vector3(90, 0, 0) } };
+    
     //private Vector3[] PlayCamTransform = new Vector3[] { new Vector3(0.749000013f, 1.35300004f, 0), new Vector3(10.158843f, 270, 0f) }; // 플레이어 시점 Cam
     // Start is called before the first frame update
 
@@ -62,11 +68,11 @@ public class VoteRSP_Manager : MonoBehaviour
         Cam.transform.position = VoteCamTransform["position"];
         Cam.transform.eulerAngles = VoteCamTransform["eulerAngles"];
 
-        SetOK = false;
+        SetOK = false; 
         SelectOK = false;
-        SelectCardNum = 0;
-        turnOutOK = false;
-
+        SelectCardNum = 0; 
+        turnOutOK = false; 
+        isTurnOut = false; 
 
         CardsManager.GetComponent<RSPCardsManager>().Reset();
     }
@@ -87,12 +93,12 @@ public class VoteRSP_Manager : MonoBehaviour
 
     
 
-    public void StartVote()
+    public void StartVote() // 버튼 클릭 시 투표 시작
     {
         CardsManager.GetComponent<RSPCardsManager>().VoteCards();
     }
 
-    private void SetCard()
+    private void SetCardTable() // 테이블에 카드 세팅 시 실행하는 메서드
     {
         Cam.transform.position = TableCamTransform["position"];
         Cam.transform.eulerAngles = TableCamTransform["eulerAngles"];
@@ -100,9 +106,17 @@ public class VoteRSP_Manager : MonoBehaviour
         CardsManager.GetComponent<RSPCardsManager>().SetCards();
     }
 
-    public void OppCardsSet()
+    private void SetChooseCard1Play() // 테이블에서 세장 카드 모두 고른 후 1개 카드 고르는 상황 시 실행하는 메서드
     {
-        
+        // 상대방이 카드 가져가게
+        CardsManager.GetComponent<RSPCardsManager>().OppCardsSetRemain(); // 남은 카드들 중 상대방에 3장 부여, 그 중 결과인 하나 랜덤 선택하는 메서드 실행
+
+        // 플레이어 시점 cam으로 변경
+        // 세 장 중 낼 카드 결정한 후 냄
+        Cam.transform.position = PlayCamTransform["position"];
+        Cam.transform.eulerAngles = PlayCamTransform["eulerAngles"];
+
+        turnOutOK = true; // 플레이어가 세 카드 중 한 카드 고를 준비 ok, 카드 고르면 false로, isTunsOut = true로 하고 메서드 실행 
     }
 
 
@@ -112,24 +126,28 @@ public class VoteRSP_Manager : MonoBehaviour
         if (SetOK)
         {
             SetOK = false;
-            SetCard();
+            SetCardTable();
         }
 
-        if(SelectCardNum >= 3)
+        if(SelectCardNum >= 3) // 카드 세장 고르면 상태 변경, 세 장 중 한 장 고를 수 있는 상황 만들기
         {
             SelectCardNum = -1;
             SelectOK = false;
-            // 상대방이 카드 가져가게
-            CardsManager.GetComponent<RSPCardsManager>().OppCardsSetRemain();
-
-            // 플레이어 시점 cam으로 변경
-            // 세 장 중 낼 카드 결정한 후 냄
-            Cam.transform.position = PlayCamTransform["position"];
-            Cam.transform.eulerAngles = PlayCamTransform["eulerAngles"];
-
-            turnOutOK = true; // 플레이어가 한 카드 낼 준비 ok
+            SetChooseCard1Play();
         }
 
-       
+        if (isTurnOut)
+        {
+            isTurnOut = false;
+            Cam.transform.position = ShowResultCamTransform["position"];
+            Cam.transform.eulerAngles = ShowResultCamTransform["eulerAngles"];
+            CardsManager.GetComponent<RSPCardsManager>().TurnOutCard(); // 카드 천천히 공개하는 메서드
+            winWho = CardsManager.GetComponent<RSPCardsManager>().GetCompareCardsPlayerAndOpp(); // 카드 결과 비교해서 결과값 리턴하는 메서드
+        }
+
+        if (ShowResultOK) // 결과 공개하는 UI 세팅
+        {
+            ShowResultOK = false;
+        }
     }
 }

@@ -39,9 +39,15 @@ public class UIVoteRSP : MonoBehaviour
         {
             startButton = GameObject.FindWithTag("Button_Start");
         }
+
+        if (mirrorButton == null)
+        {
+            startButton = GameObject.FindWithTag("Button_Mirror");
+        }
     }
 
     public GameObject startButton;
+    public GameObject mirrorButton;
 
     // Start is called before the first frame update
     void Start()
@@ -58,11 +64,17 @@ public class UIVoteRSP : MonoBehaviour
     public void Reset()
     {
         startButton.SetActive(true);
+        mirrorButton.GetComponent<Button>().enabled = false;
     }
 
-    public void Button_Start()
+    public void Button_Start() // 스타트 버튼 누를 시 실행하는 메서드
     {
         VoteRSP_Manager.Instance.StartVote();
         startButton.SetActive(false);
+    }
+
+    public void MirrorOK()
+    {
+        mirrorButton.GetComponent<Button>().enabled=true;
     }
 }
