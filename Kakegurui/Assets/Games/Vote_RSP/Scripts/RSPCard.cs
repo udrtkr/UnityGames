@@ -16,7 +16,9 @@ public class RSPCard : MonoBehaviour
     private Vector3 VoteEulerAngle = new Vector3(90, 0, 0); // 처음 오일러앵글
     private Vector3 eulerTableCard = new Vector3 (180,-90,0);
     private Vector3 eulerChoosedCard = new Vector3(-90, -90, 0);
-    private Vector3 eulerShowCard = new Vector3 (0,-90,0);
+
+    private Vector3 resetPosition;
+
     private bool isSelected = false; // 테이블 위 or 세 장 카드 낼 때 상황에서 자신의 오브젝트(카드)에 마우스 올려져 있을 때
 
     public bool isChoosed = false; // 세 장 중 선택된 카드
@@ -26,7 +28,7 @@ public class RSPCard : MonoBehaviour
     private void Awake()
     {
         RSPspriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
-        
+        resetPosition = this.transform.parent.position;
         SetRSPsprite();
     }
     // Start is called before the first frame update
@@ -55,8 +57,6 @@ public class RSPCard : MonoBehaviour
                 transform.parent.gameObject.GetComponent<RSPCardsManager>().SetChooseCardAndPos(VoteRSP_Manager.Instance.SelectCardNum, this.gameObject); // 고른 카드 위치, 자신 오브젝트 선택된 배열에 저장
                 VoteRSP_Manager.Instance.SelectCardNum++; // 고른 카드 수
                 transform.eulerAngles = eulerChoosedCard;
-
-                Debug.Log("selected");
 
             }
 
@@ -139,7 +139,7 @@ public class RSPCard : MonoBehaviour
 
         isChoosed = false; // 세 장 중 선택된 카드 t or f false로
 
-        transform.Translate(Vector3.zero);
+        transform.position = resetPosition;
         transform.eulerAngles = VoteEulerAngle;
 
         SetRSP(spriteNum);

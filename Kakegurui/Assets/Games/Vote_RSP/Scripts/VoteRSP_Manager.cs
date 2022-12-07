@@ -63,7 +63,7 @@ public class VoteRSP_Manager : MonoBehaviour
     //private Vector3[] PlayCamTransform = new Vector3[] { new Vector3(0.749000013f, 1.35300004f, 0), new Vector3(10.158843f, 270, 0f) }; // 플레이어 시점 Cam
     // Start is called before the first frame update
 
-    private void Reset()
+    public void Reset()
     {
         Cam.transform.position = VoteCamTransform["position"];
         Cam.transform.eulerAngles = VoteCamTransform["eulerAngles"];
@@ -72,8 +72,12 @@ public class VoteRSP_Manager : MonoBehaviour
         SelectOK = false;
         SelectCardNum = 0; 
         turnOutOK = false; 
-        isTurnOut = false; 
+        isTurnOut = false;
+        ShowResultOK = false;
 
+        winWho = 0;
+
+        UIVoteRSP.Instance.Reset();
         CardsManager.GetComponent<RSPCardsManager>().Reset();
     }
 
@@ -104,6 +108,8 @@ public class VoteRSP_Manager : MonoBehaviour
         Cam.transform.eulerAngles = TableCamTransform["eulerAngles"];
 
         CardsManager.GetComponent<RSPCardsManager>().SetCards();
+
+        UIVoteRSP.Instance.SetMirrorButton(true);
     }
 
     private void SetChooseCard1Play() // 테이블에서 세장 카드 모두 고른 후 1개 카드 고르는 상황 시 실행하는 메서드
@@ -119,6 +125,26 @@ public class VoteRSP_Manager : MonoBehaviour
         turnOutOK = true; // 플레이어가 세 카드 중 한 카드 고를 준비 ok, 카드 고르면 false로, isTunsOut = true로 하고 메서드 실행 
     }
 
+    private void TurnOutCards() // 마지막에 카드를 공개하는 메서드
+    {
+        Cam.transform.position = ShowResultCamTransform["position"];
+        Cam.transform.eulerAngles = ShowResultCamTransform["eulerAngles"];
+        CardsManager.GetComponent<RSPCardsManager>().TurnOutCard(); // 카드 천천히 공개하는 메서드
+        winWho = CardsManager.GetComponent<RSPCardsManager>().GetCompareCardsPlayerAndOpp(); // 카드 결과 비교해서 결과값 리턴하는 메서드
+
+        UIVoteRSP.Instance.SetMirrorButton(false);
+        UIVoteRSP.Instance.mirror.SetActive(false);
+    }
+    private void ShowResult()
+    {
+        UIVoteRSP.Instance.ShowResult(winWho);
+        // TODO : 플레이어 오브젝트의 애니메이터에서 bool 전달하여 애니메이션 이기는 것으로 바꾸게 하기
+    }
+    private void AfterShowResult()
+    {
+        UIVoteRSP.Instance.SetResetButton(true);
+        UIVoteRSP.Instance.SetOutButton(true);
+    }
 
     // Update is called once per frame
     void Update()
@@ -139,15 +165,14 @@ public class VoteRSP_Manager : MonoBehaviour
         if (isTurnOut)
         {
             isTurnOut = false;
-            Cam.transform.position = ShowResultCamTransform["position"];
-            Cam.transform.eulerAngles = ShowResultCamTransform["eulerAngles"];
-            CardsManager.GetComponent<RSPCardsManager>().TurnOutCard(); // 카드 천천히 공개하는 메서드
-            winWho = CardsManager.GetComponent<RSPCardsManager>().GetCompareCardsPlayerAndOpp(); // 카드 결과 비교해서 결과값 리턴하는 메서드
+            TurnOutCards();
         }
 
         if (ShowResultOK) // 결과 공개하는 UI 세팅
         {
             ShowResultOK = false;
+            ShowResult();
+            Invoke("AfterShowResult", 3f);
         }
     }
 }

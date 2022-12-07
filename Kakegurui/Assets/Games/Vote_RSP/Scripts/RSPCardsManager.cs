@@ -11,7 +11,7 @@ public class RSPCardsManager : MonoBehaviour
 
     string root = "Prefab_VoteRSP/"; // 프리팹 주소
 
-    
+    private List<int> percentCardList = new List<int>(); // 카드 확률에 따라 담은 list 0: 확률 낮은 카드 10%, 1,2: 각 45%
 
     public GameObject voteBox; // 시작 시 카드가 들어갈 voteBox
 
@@ -27,6 +27,7 @@ public class RSPCardsManager : MonoBehaviour
     public Transform[] ChoosePositionArr_Opp; // 상대방의 테이블에서 뽑은 카드 세 장 transform 담을 배열
 
     public GameObject[] TurnOutCardArr_PlayerAndOpp = new GameObject[2]; // 플레이어와 상대방의 카드 타입 저장한 배열, 0=player 1=opp, null로 리셋
+
     
 
     private void Awake()
@@ -53,15 +54,33 @@ public class RSPCardsManager : MonoBehaviour
     }
     void Start()
     {
-        CardPositionArr = setCardPosition.GetComponentsInChildren<Transform>(); // 자신도 트랜스폼컴포넌트 ㅇ 이때 0은 자기 자신이므로 1부터
-        ChoosePositionArr = ChooseCardPosition.GetComponentsInChildren<Transform>(); // 이때 0은 자기 자신이므로 1부터
-        ChoosePositionArr_Opp = ChooseCardPosition_Opp.GetComponentsInChildren<Transform>(); // 이때 0은 자기 자신이므로 1부터
+        
         //Reset();
     }
 
     //objectpool식처럼 자신 sprite만 바꾸게
 
-    public void InstanciateCards() // Start에서 한번만 사용, 30장의 카드 프리팹 소환
+    public void Reset()
+    {
+        for (int i = 0; i < ChooseCards_Opp.Length; i++)
+        {
+            ChooseCards_Opp[i] = null;
+            ChooseCards_Opp[i] = null;
+        }
+        TurnOutCardArr_PlayerAndOpp[0] = null;
+        TurnOutCardArr_PlayerAndOpp[1] = null;
+
+        InstanciateCards();
+
+        CardPositionArr = setCardPosition.GetComponentsInChildren<Transform>(); // 자신도 트랜스폼컴포넌트 ㅇ 이때 0은 자기 자신이므로 1부터
+        ChoosePositionArr = ChooseCardPosition.GetComponentsInChildren<Transform>(); // 이때 0은 자기 자신이므로 1부터
+        ChoosePositionArr_Opp = ChooseCardPosition_Opp.GetComponentsInChildren<Transform>(); // 이때 0은 자기 자신이므로 1부터
+
+        SetLowPercentCard();
+        ResetCards();
+        percentCardList.Clear();
+    }
+    private void InstanciateCards() // Start에서 한번만 사용, 30장의 카드 프리팹 소환
     {
         if (transform.GetComponentsInChildren<RSPCard>().Length == 0)
         {
@@ -74,20 +93,44 @@ public class RSPCardsManager : MonoBehaviour
             }
         }
     }
-    public void ResetCards() // 게임 시작 시 카드 30장의 종류 정하는 메서드
+
+    private void SetLowPercentCard() // 낮은 확률인 카드 정하는 메서드, 낮은 확률은 10퍼로 조정, 거울에 비칠 손도 바꿔줌
+    {
+        int randomNum = UnityEngine.Random.Range(0, 3); // 0-2중 하나 낮은 확률 당첨될 카드 넘버 랜덤으로 생성 0:묵 1:찌 2:빠
+        percentCardList.Add(randomNum);
+
+        for(int i = 0; i < 3; i++)
+        {
+            if (!percentCardList.Exists(x => x == i)) // list에 존재하지 않는 숫자일 때, 즉 확률 낮은 숫자가 아닐 때 순서대로 추가
+            {
+                percentCardList.Add(i);
+            }
+        }
+
+        // 나온 랜덤 카드 타입 넘버로 UI mirror에 보여질 이미지 제어 메서드 호출
+        UIVoteRSP.Instance.SetMirrorImage(randomNum);
+
+        Debug.Log(randomNum);
+    }
+    public void ResetCards() // 게임 시작 시(리셋 시) 카드 30장의 종류 정하는 메서드
     {
         //카드 종류 리셋
         for (int i = 0; i < cardsArr.Length; i++)
         {
             // 인스턴시에이트 위치는 투표함 위
-            int randomNum = UnityEngine.Random.Range(0, 3); // 0-2중 하나 랜덤으로 생성
-            cardsArr[i].GetComponent<RSPCard>().Reset(randomNum);// RSPCard에서 리셋(스프라이트 설정, 포지션 각도 리셋 등) 메서드 가져옴
+            int randomPercent = UnityEngine.Random.Range(1, 101); // 1-100중 하나 랜덤으로 생성(퍼센트 지정)
+            if(randomPercent <= 10) // 10 이하일 때(10%), 낮은 확률 카드 넘버 percentCardList[0] 전달
+                cardsArr[i].GetComponent<RSPCard>().Reset(percentCardList[0]);// RSPCard에서 리셋(스프라이트 설정, 포지션 각도 리셋 등) 메서드 가져옴
+            else
+            {
+                int randomNum = UnityEngine.Random.Range(1, 3); // 1,2 중 하나 골라 카드 넘버 percentCardList[randomNum] 카드에 전달하여 세팅
+                cardsArr[i].GetComponent<RSPCard>().Reset(percentCardList[randomNum]);
+            }
             //cardsArr[i].transform.position = this.transform.position;
 
         }
     }
-    // 매니저에서 뽑은 세 카드 저장, 각 배열에 저장해야댐
-    public void VoteCards()
+    public void VoteCards() // 전체 매니저에서 실행
     {
         // 카드 투표박스 안으로 넣음 코루틴으로 순서대로 진행
         StartCoroutine(E_VoteCards());
@@ -104,7 +147,7 @@ public class RSPCardsManager : MonoBehaviour
         VoteRSP_Manager.Instance.SetOK = true; // 카드 voteBox에 모두 들어가면 SetOK = true, 카드 테이블에 세팅준비 ok
         yield return null;
     }
-    public void SetCards()
+    public void SetCards() // 전체 매니저에서 실행
     {
         // 카드 테이블에 셋팅
         // 각 카드에 컴포넌트 붙여야할 듯 움직이는 컴포넌트
@@ -196,7 +239,6 @@ public class RSPCardsManager : MonoBehaviour
 
     IEnumerator E_TurnOutCard() // 카드 패 천천히 공개하는 코루틴
     {
-        Debug.Log(ChooseCards[0].transform.eulerAngles);
         float speed = 0.002f;
         while(ChooseCards[0].transform.eulerAngles.x > 1) // 카드 비교 전, 먼저 둘 다 카드 세개 패 모두 공개
         {
@@ -222,19 +264,7 @@ public class RSPCardsManager : MonoBehaviour
         VoteRSP_Manager.Instance.ShowResultOK = true;
     }
 
-    public void Reset() 
-    {
-        for(int i=0; i< ChooseCards_Opp.Length; i++)
-        {
-            ChooseCards_Opp[i] = null;
-            ChooseCards_Opp[i] = null;
-        }
-        TurnOutCardArr_PlayerAndOpp[0] = null;
-        TurnOutCardArr_PlayerAndOpp[1] = null;
-
-        InstanciateCards();
-        ResetCards();
-    }
+    
 
     
     // Update is called once per frame
