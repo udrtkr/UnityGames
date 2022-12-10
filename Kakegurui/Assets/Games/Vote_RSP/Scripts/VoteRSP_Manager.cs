@@ -89,7 +89,7 @@ public class VoteRSP_Manager : MonoBehaviour
         }
         if (CardsManager == null)
         {
-            Cam = GameObject.FindWithTag("Cards");
+            Cam = GameObject.Find("Cards");
         }
 
         Reset();
@@ -131,6 +131,7 @@ public class VoteRSP_Manager : MonoBehaviour
         Cam.transform.eulerAngles = ShowResultCamTransform["eulerAngles"];
         CardsManager.GetComponent<RSPCardsManager>().TurnOutCard(); // 카드 천천히 공개하는 메서드
         winWho = CardsManager.GetComponent<RSPCardsManager>().GetCompareCardsPlayerAndOpp(); // 카드 결과 비교해서 결과값 리턴하는 메서드
+        Debug.Log(winWho);
 
         UIVoteRSP.Instance.SetMirrorButton(false);
         UIVoteRSP.Instance.mirror.SetActive(false);
@@ -138,7 +139,9 @@ public class VoteRSP_Manager : MonoBehaviour
     private void ShowResult()
     {
         UIVoteRSP.Instance.ShowResult(winWho);
-        // TODO : 플레이어 오브젝트의 애니메이터에서 bool 전달하여 애니메이션 이기는 것으로 바꾸게 하기
+        // 플레이어 오브젝트의 애니메이터에서 trigger set하여 애니메이션 이기는 or 지는 것으로 바꿈
+        Character_Manager.Instance.SetAnimation(winWho);
+
     }
     private void AfterShowResult()
     {

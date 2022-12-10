@@ -7,26 +7,31 @@ using UnityEngine;
 /// </summary>
 public class RSPCardsManager : MonoBehaviour
 {
-    public GameObject[] cardsArr = new GameObject[30]; // 총 카드 갯수
+    [SerializeField]
+    private GameObject[] cardsArr = new GameObject[30]; // 총 카드 갯수
 
     string root = "Prefab_VoteRSP/"; // 프리팹 주소
 
     private List<int> percentCardList = new List<int>(); // 카드 확률에 따라 담은 list 0: 확률 낮은 카드 10%, 1,2: 각 45%
 
-    public GameObject voteBox; // 시작 시 카드가 들어갈 voteBox
+    [SerializeField]
+    private GameObject voteBox; // 시작 시 카드가 들어갈 voteBox
 
-    public GameObject setCardPosition; // 밑의 부모 오브젝트
-    public Transform[] CardPositionArr; // 테이블 위 카드 위치 담을 배열
+    [SerializeField]
+    private GameObject setCardPosition; // 밑의 부모 오브젝트
+    private Transform[] CardPositionArr; // 테이블 위 카드 위치 담을 배열
 
     public GameObject[] ChooseCards = new GameObject[3]; // 플레이어가 테이블에서 선택한 카드 세 개 담을 배열, null로 리셋
-    public GameObject ChooseCardPosition; // 밑의 부모 오브젝트
-    public Transform[] ChoosePositionArr; // 테이블에서 뽑은 카드 세 장 transform 담을 배열
+    [SerializeField]
+    private GameObject ChooseCardPosition; // 밑의 부모 오브젝트
+    private Transform[] ChoosePositionArr; // 테이블에서 뽑은 카드 세 장 transform 담을 배열
 
-    public GameObject[] ChooseCards_Opp = new GameObject[3]; // 상대방이 테이블에서 선택한 카드 세 개 담을 배열, null로 리셋
-    public GameObject ChooseCardPosition_Opp; // 밑의 부모 오브젝트
-    public Transform[] ChoosePositionArr_Opp; // 상대방의 테이블에서 뽑은 카드 세 장 transform 담을 배열
+    private GameObject[] ChooseCards_Opp = new GameObject[3]; // 상대방이 테이블에서 선택한 카드 세 개 담을 배열, null로 리셋
+    [SerializeField]
+    private GameObject ChooseCardPosition_Opp; // 밑의 부모 오브젝트
+    private Transform[] ChoosePositionArr_Opp; // 상대방의 테이블에서 뽑은 카드 세 장 transform 담을 배열
 
-    public GameObject[] TurnOutCardArr_PlayerAndOpp = new GameObject[2]; // 플레이어와 상대방의 카드 타입 저장한 배열, 0=player 1=opp, null로 리셋
+    private GameObject[] TurnOutCardArr_PlayerAndOpp = new GameObject[2]; // 플레이어와 상대방의 카드 타입 저장한 배열, 0=player 1=opp, null로 리셋
 
     
 
@@ -34,22 +39,22 @@ public class RSPCardsManager : MonoBehaviour
     {
         if (voteBox == null)
         {
-            voteBox = GameObject.FindWithTag("VoteBox");
+            voteBox = GameObject.Find("VoteBox");
         }
 
         if(setCardPosition == null)
         {
-            setCardPosition = GameObject.FindWithTag("SetCardPosition");
+            setCardPosition = GameObject.Find("SetCardPosition");
         }
 
         if(ChooseCardPosition == null)
         {
-            ChooseCardPosition = GameObject.FindWithTag("ChoosePosition");
+            ChooseCardPosition = GameObject.Find("ChoosePosition");
         }
 
         if(ChooseCardPosition_Opp == null)
         {
-            ChooseCardPosition_Opp = GameObject.FindWithTag("ChoosePosition_Opp");
+            ChooseCardPosition_Opp = GameObject.Find("ChoosePosition_Opp");
         }
     }
     void Start()
