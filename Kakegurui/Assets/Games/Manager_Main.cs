@@ -41,7 +41,7 @@ public class Manager_Main : MonoBehaviour
         }
     }
 
-    static long Money = 1000;
+    static long Money = 10000;
     // Start is called before the first frame update
     void Start()
     {

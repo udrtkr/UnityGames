@@ -40,42 +40,52 @@ public class UI_Main : MonoBehaviour
             MoneyText = transform.Find("MoneyText").gameObject;
         if (MoneyUpdateText == null)
             MoneyUpdateText = transform.Find("MoneyUpdateText").gameObject;
+        if (BetPanel == null)
+            BetPanel = transform.Find("BetPanel").gameObject;
 
         MoneyText.SetActive(true);
 
         MoneyUpdateText.SetActive(false);
 
+        BetPanel.SetActive(false);
+
+    }
+
+    private void Start()
+    {
+        MoneyText.GetComponent<Text>().text = NumToStr(Manager_Main.Instance.GetMoney());
     }
 
     [SerializeField]
     GameObject MoneyText;
     [SerializeField]
     GameObject MoneyUpdateText;
-
+    [SerializeField]
+    GameObject BetPanel;
 
     public void MoneyUIUpdate(long moneyupdate) // 게임 내에서 메인매니저 머니업데이트 먼저 실행 후 이거 애니메이션처럼 실행
     {
-        string str = string.Format("0:#,###", moneyupdate);
-        MoneyUpdateText.GetComponent<Text>().text = str;
+        MoneyUpdateText.GetComponent<Text>().text = NumToStr(moneyupdate);
         MoneyUpdateText.SetActive(true);
         
         void MoneyUp() 
         {
-            MoneyText.GetComponent<Text>().text = string.Format("0:#,###", Manager_Main.Instance.GetMoney());
+            MoneyText.GetComponent<Text>().text = NumToStr(Manager_Main.Instance.GetMoney());
             MoneyText.SetActive(false); 
         }
 
         Invoke("MoneyUp", 2); // 2초 뒤 돈 업데이트 텍스트 off, 돈관련UI 업데이트해줌
     }
 
+    public string NumToStr(long num)
+    {
+        return num.ToString("#,##0");
+    }
+
     //TODO : 여기서 모든 게임에 적용 가능한 베팅 시스템 만듬
     // 판돈은 메인매니저에 저장
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
