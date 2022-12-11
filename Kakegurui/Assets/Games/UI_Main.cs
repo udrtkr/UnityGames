@@ -84,8 +84,11 @@ public class UI_Main : MonoBehaviour
 
     //TODO : 여기서 모든 게임에 적용 가능한 베팅 시스템 만듬
     // 판돈은 메인매니저에 저장
-
-
+    
+    public void SetBetPanel(bool set) // 베팅 패널 세팅 메서드
+    {
+        BetPanel.SetActive(set);
+    }
 
     // Update is called once per frame
     void Update()

@@ -70,6 +70,12 @@ public class BetPanel : MonoBehaviour
         BetMoneyUpdate();
     }
 
+    public void ClickBetPanel() // 베팅 버튼 클릭 시
+    {
+        Manager_Main.SetForceSop(false); // 강제 멈춤 종료
+        this.gameObject.SetActive(false);
+    }
+
     public void Reset()
     {
         BetMoney = 100;
