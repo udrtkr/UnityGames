@@ -74,6 +74,8 @@ public class BetPanel : MonoBehaviour
     {
         Manager_Main.SetForceStop(false); // 강제 멈춤 종료
         this.gameObject.SetActive(false);
+        Reset();
+        // 메인매니저에서 가조옴
     }
 
     public void Reset()
