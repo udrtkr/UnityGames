@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 시작 전 UI에서 거울 사용하여 확률 up 된 것 보게 하는 것 까지
+/// 시작 전 UI에서 거울 사용하여 확률 down 된 것 보게 하는 것 까지
 /// 카드 테이블에서 골랐을 때 셀렉트넘버 ++ 하여 2 초과면 selectOK false, 고른 카드는 카드 컴포넌트에서 select false 로 바꾸기
 /// 세개 고른 카드는 매니저 여기에 정보 전달
 /// 카드 세개 가져간 것 플레이어 시점에서 보여주고 카드 컴포넌트에서? ChooseCardOk true 해서 카드 세개 중 고르게, 고른 카드 위로 up

@@ -42,7 +42,7 @@ public class BetPanel : MonoBehaviour
 
     private void BetMoneyUpdate()
     {
-        BetMoneyText.GetComponent<Text>().text = UI_Main.Instance.NumToStr(BetMoney);
+        BetMoneyText.GetComponent<Text>().text = UI_Main.NumToStr(BetMoney);
     }
 
     public void ClickPlusButton()
@@ -72,13 +72,13 @@ public class BetPanel : MonoBehaviour
 
     public void ClickBetPanel() // ∫£∆√ πˆ∆∞ ≈¨∏Ø Ω√
     {
-        Manager_Main.SetForceSop(false); // ∞≠¡¶ ∏ÿ√„ ¡æ∑·
+        Manager_Main.SetForceStop(false); // ∞≠¡¶ ∏ÿ√„ ¡æ∑·
         this.gameObject.SetActive(false);
     }
 
     public void Reset()
     {
         BetMoney = 100;
-        BetMoneyText.GetComponent<Text>().text = UI_Main.Instance.NumToStr(BetMoney);
+        BetMoneyText.GetComponent<Text>().text = UI_Main.NumToStr(BetMoney);
     }
 }

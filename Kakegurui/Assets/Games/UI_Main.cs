@@ -63,21 +63,20 @@ public class UI_Main : MonoBehaviour
     [SerializeField]
     GameObject BetPanel;
 
+    void MoneyUp()
+    {
+        MoneyText.GetComponent<Text>().text = NumToStr(Manager_Main.Instance.GetMoney());
+        MoneyText.SetActive(false);
+    }
     public void MoneyUIUpdate(long moneyupdate) // 게임 내에서 메인매니저 머니업데이트 먼저 실행 후 이거 애니메이션처럼 실행
     {
         MoneyUpdateText.GetComponent<Text>().text = NumToStr(moneyupdate);
         MoneyUpdateText.SetActive(true);
         
-        void MoneyUp() 
-        {
-            MoneyText.GetComponent<Text>().text = NumToStr(Manager_Main.Instance.GetMoney());
-            MoneyText.SetActive(false); 
-        }
-
         Invoke("MoneyUp", 2); // 2초 뒤 돈 업데이트 텍스트 off, 돈관련UI 업데이트해줌
     }
 
-    public string NumToStr(long num)
+    public static string NumToStr(long num)
     {
         return num.ToString("#,##0");
     }

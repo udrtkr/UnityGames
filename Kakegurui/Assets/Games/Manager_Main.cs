@@ -77,7 +77,7 @@ public class Manager_Main : MonoBehaviour
     {
         BetOK = ok;
     }
-    public static void SetForceSop(bool ok)
+    public static void SetForceStop(bool ok)
     {
         ForceStop = ok;
     }
@@ -88,7 +88,7 @@ public class Manager_Main : MonoBehaviour
     public static void Bet() // 베팅 관련 세팅, BetOK일 때 사용될 메서드
     {
         BetOK = false;
-        SetForceSop(true);
+        SetForceStop(true);
         UI_Main.Instance.SetBetPanel(true); // 베팅 패널 on
     }
 
