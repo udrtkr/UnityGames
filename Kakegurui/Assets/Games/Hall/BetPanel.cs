@@ -70,13 +70,15 @@ public class BetPanel : MonoBehaviour
         BetMoneyUpdate();
     }
 
-    public void ClickBetPanel() // 베팅 버튼 클릭 시
+    public void ClickBetButton() // 베팅 버튼 클릭 시
     {
-        Manager_Main.SetForceStop(false); // 강제 멈춤 종료
         this.gameObject.SetActive(false);
+        UI_Main.Instance.BetClick(BetMoney); // 베팅 머니 전달, 메인UI에서 가져옴
+
         Reset();
-        // 메인매니저에서 가조옴
+        
     }
+
 
     public void Reset()
     {

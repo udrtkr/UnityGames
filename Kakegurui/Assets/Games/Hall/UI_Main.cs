@@ -66,7 +66,7 @@ public class UI_Main : MonoBehaviour
     void MoneyUp()
     {
         MoneyText.GetComponent<Text>().text = NumToStr(Manager_Main.Instance.GetMoney());
-        MoneyText.SetActive(false);
+        MoneyUpdateText.SetActive(false);
     }
     public void MoneyUIUpdate(long moneyupdate) // 게임 내에서 메인매니저 머니업데이트 먼저 실행 후 이거 애니메이션처럼 실행
     {
@@ -88,6 +88,15 @@ public class UI_Main : MonoBehaviour
     {
         BetPanel.SetActive(set);
     }
+
+    public void BetClick(long money) // BetPanel에서 사용
+    {
+        Manager_Main.SetBetMoney(money);
+        Manager_Main.SetMoney(money); // 가지고 있는 돈에서 -
+        MoneyUIUpdate(-1 * money);
+    }
+
+
 
     // Update is called once per frame
     void Update()
