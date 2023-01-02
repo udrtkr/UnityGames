@@ -30,8 +30,6 @@ public class Manager_Main : MonoBehaviour
 
     private void Awake()
     {
-        if (FindObjectOfType<Manager_Main>() == null) // 씬 변경했을 때 없다면 파괴x, 데이터 담고있으므로 유지
-            DontDestroyOnLoad(this.gameObject);
         if (_instance == null)
         {
             _instance = this;
@@ -40,6 +38,7 @@ public class Manager_Main : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     static long Money = 10000; // 사용자 현재 가지고 있는 돈 액수
@@ -93,9 +92,10 @@ public class Manager_Main : MonoBehaviour
         BetMoney = 100; // 초기화
     }
 
-    public void SceneChange(string scenename) // 씬 전환 메서드
+    public static void SceneChange(string scenename) // 씬 전환 메서드
     {
-        SceneManager.LoadScene(scenename);
+        if(SceneManager.GetSceneByName(scenename) != null)
+            SceneManager.LoadScene(scenename);
     }
 
     // TODO : 만든 변수 두개 베팅ok 와 강제 스탑 이용하여 게임에 적용

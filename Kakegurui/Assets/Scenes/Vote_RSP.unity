@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: bd48dfa967fa6474a8826ed5f2af14a1, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -384,8 +384,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0, g: 0, b: 0, a: 0.49019608}
+  m_Intensity: 0.01
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -684,7 +684,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 247447835}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 596937286}
+        m_TargetAssemblyTypeName: UIVoteRSP, Assembly-CSharp
+        m_MethodName: ClickOutButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &247447835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,7 +1403,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.113296546, g: 0.20907547, b: 0.3584906, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1907,7 +1919,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -2427,22 +2439,12 @@ MonoBehaviour:
   - {fileID: 0}
   voteBox: {fileID: 2011586001}
   setCardPosition: {fileID: 936072921}
-  CardPositionArr: []
   ChooseCards:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   ChooseCardPosition: {fileID: 847476517}
-  ChoosePositionArr: []
-  ChooseCards_Opp:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   ChooseCardPosition_Opp: {fileID: 515665606}
-  ChoosePositionArr_Opp: []
-  TurnOutCardArr_PlayerAndOpp:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &964940963
 GameObject:
   m_ObjectHideFlags: 0

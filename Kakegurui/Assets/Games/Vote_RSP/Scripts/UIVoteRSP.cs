@@ -88,7 +88,7 @@ public class UIVoteRSP : MonoBehaviour
     public void Reset() // 전체 매니저에서 쓰일 리셋 메서드
     {
         SetResetButton(false);
-        SetOutButton(false);
+        SetOutButton(true);
         startButton.SetActive(true);
         SetMirrorButton(false);
         mirror.SetActive(false);
@@ -102,6 +102,7 @@ public class UIVoteRSP : MonoBehaviour
     {
         VoteRSP_Manager.Instance.StartVote();
         startButton.SetActive(false);
+        SetOutButton(false);
     }
 
     public void SetMirrorButton(bool isActive) // 거울 버튼 액티브 제어 메서드
@@ -149,5 +150,9 @@ public class UIVoteRSP : MonoBehaviour
     {
         SetResetButton(false);
         VoteRSP_Manager.Instance.Reset();
+    }
+    public void ClickOutButton()
+    {
+        Manager_Main.SceneChange("0_Hall");
     }
 }

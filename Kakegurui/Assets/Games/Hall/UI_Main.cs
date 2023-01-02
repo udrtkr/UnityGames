@@ -25,8 +25,6 @@ public class UI_Main : MonoBehaviour
 
     private void Awake()
     {
-        if(FindObjectOfType<UI_Main>() == null) // 씬 변경했을 때 없다면 파괴x
-            DontDestroyOnLoad(this.gameObject);
         if (_instance == null)
         {
             _instance = this;
@@ -35,6 +33,7 @@ public class UI_Main : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        DontDestroyOnLoad(this.gameObject);
 
         if (MoneyText == null)
             MoneyText = transform.Find("MoneyText").gameObject;

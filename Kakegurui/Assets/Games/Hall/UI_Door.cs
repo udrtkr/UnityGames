@@ -35,15 +35,21 @@ public class UI_Door : MonoBehaviour
         tr = GetComponent<Transform>();
 
         SetPosition(new Vector3(999, 999, 999));
-
         SetGameNameAndSceneName("", "");
+
+        if (gamenameText == null)
+            gamenameText = transform.Find("Text_Game").gameObject;
     }
 
     Transform tr;
 
     string gameName;
     string sceneName;
+
+    [SerializeField]
+    GameObject gamenameText;
     //Dictionary<string, string> GameScenePair = new Dictionary<string, string>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,10 +70,12 @@ public class UI_Door : MonoBehaviour
     {
         gameName = gamename;
         sceneName = scenename;
+        gamenameText.GetComponent<Text>().text = gameName;
+        // textUI도 이에 맞게 설정 게임이름
     }
 
-    public void ClickEnterButton()
+    public void ClickEnterButton() // 입장하기 버튼 누를 시 방 들어가게, 메인매니저에서 메소드 가져옴
     {
-
+        Manager_Main.SceneChange(sceneName);
     }
 }
