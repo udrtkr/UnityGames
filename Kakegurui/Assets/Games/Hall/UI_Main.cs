@@ -72,7 +72,7 @@ public class UI_Main : MonoBehaviour
         MoneyUpdateText.GetComponent<Text>().text = NumToStr(moneyupdate);
         MoneyUpdateText.SetActive(true);
         
-        Invoke("MoneyUp", 2); // 2초 뒤 돈 업데이트 텍스트 off, 돈관련UI 업데이트해줌
+        Invoke("MoneyUp", 1f); // 2초 뒤 돈 업데이트 텍스트 off, 돈관련UI 업데이트해줌
     }
 
     public static string NumToStr(long num)
@@ -91,8 +91,10 @@ public class UI_Main : MonoBehaviour
     public void BetClick(long money) // BetPanel에서 사용
     {
         Manager_Main.SetBetMoney(money);
-        Manager_Main.SetMoney(money); // 가지고 있는 돈에서 -
+        Manager_Main.SetMoney(-1*money); // 가지고 있는 돈에서 -
         MoneyUIUpdate(-1 * money);
+
+        Manager_Main.SetBetOff(true); // 베팅 끝 메서드 사용
     }
 
 

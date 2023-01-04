@@ -52,7 +52,7 @@ public class VoteRSP_Manager : MonoBehaviour
     public bool isTurnOut = false; // 위의 상황에서 고른 후 true로 변환, 카드를 낼거임
     public bool ShowResultOK = false; // 모든 상황 끝나고 UI로 결과 보여줄 수 있는지 확인하는 변수
 
-    private int winWho = 0;
+    private int winWho = 0; // 1=player win, 0=draw, -1=opp win
 
     //private Vector3[] VoteCamTransform = new Vector3[] { new Vector3(0, 1.2f, -0.76f), Vector3.zero }; // 순서대로 position eulerangle
     private Dictionary<string, Vector3> VoteCamTransform = new Dictionary<string, Vector3>() { { "position", new Vector3(0, 1.2f, -0.76f) }, { "eulerAngles", Vector3.zero } };
@@ -117,11 +117,7 @@ public class VoteRSP_Manager : MonoBehaviour
         // 상대방이 카드 가져가게
         CardsManager.GetComponent<RSPCardsManager>().OppCardsSetRemain(); // 남은 카드들 중 상대방에 3장 부여, 그 중 결과인 하나 랜덤 선택하는 메서드 실행
 
-        // 플레이어 시점 cam으로 변경
         // 세 장 중 낼 카드 결정한 후 냄
-        Cam.transform.position = PlayCamTransform["position"];
-        Cam.transform.eulerAngles = PlayCamTransform["eulerAngles"];
-
         turnOutOK = true; // 플레이어가 세 카드 중 한 카드 고를 준비 ok, 카드 고르면 false로, isTunsOut = true로 하고 메서드 실행 
     }
 
@@ -143,7 +139,7 @@ public class VoteRSP_Manager : MonoBehaviour
         Character_Manager.Instance.SetAnimation(winWho);
 
     }
-    private void AfterShowResult()
+    private void AfterShowResult() // 결과 공개 UI 설정, 메인UI에서 베팅 관련 UI도 업데이트 해야함
     {
         UIVoteRSP.Instance.SetResetButton(true);
         UIVoteRSP.Instance.SetOutButton(true);
@@ -152,29 +148,48 @@ public class VoteRSP_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SetOK)
+        if (SetOK) // 1. 카드 테이블에 세팅 준비 완료, 테이블에 카드 세팅
         {
             SetOK = false;
             SetCardTable();
         }
 
-        if(SelectCardNum >= 3) // 카드 세장 고르면 상태 변경, 세 장 중 한 장 고를 수 있는 상황 만들기
+        if(SelectCardNum >= 3) // . 카드 세장 고르면 상태 변경, 카드 확인 가능하므로 베팅 on
         {
             SelectCardNum = -1;
             SelectOK = false;
-            SetChooseCard1Play();
+
+            // 플레이어 시점 cam으로 변경
+            Cam.transform.position = PlayCamTransform["position"];
+            Cam.transform.eulerAngles = PlayCamTransform["eulerAngles"];
+
+            Manager_Main.Bet(); // 베팅 시작
         }
 
-        if (isTurnOut)
+        
+        if (Manager_Main.GetBetOff()) // 3. 베팅 끝 세 장 중 한 장 고를 수 있는 상황 만들기
+        {
+            Manager_Main.SetBetOff(false);
+
+            Invoke("SetChooseCard1Play", 1.01f); // UI 머니 업데이트 시간 때문에 어쩔 수 없이 딜레이 넣어줌
+        }
+
+
+        if (isTurnOut) // 4. 카드 세장 중 한 장 고른 직후 승패 결정, 카드 공개 -> 메인 매니저에서 승패 메소드 가져옴
         {
             isTurnOut = false;
             TurnOutCards();
+
+            Manager_Main.Instance.Result(winWho);
         }
 
         if (ShowResultOK) // 결과 공개하는 UI 세팅
         {
             ShowResultOK = false;
             ShowResult();
+
+            Manager_Main.Instance.ResultUIUpdate(winWho);
+
             Invoke("AfterShowResult", 3f);
         }
     }

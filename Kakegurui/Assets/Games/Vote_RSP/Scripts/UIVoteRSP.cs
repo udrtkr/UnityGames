@@ -151,8 +151,4 @@ public class UIVoteRSP : MonoBehaviour
         SetResetButton(false);
         VoteRSP_Manager.Instance.Reset();
     }
-    public void ClickOutButton()
-    {
-        Manager_Main.SceneChange("0_Hall");
-    }
 }

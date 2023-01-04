@@ -42,10 +42,9 @@ public class Manager_Main : MonoBehaviour
     }
 
     static long Money = 10000; // 사용자 현재 가지고 있는 돈 액수
-    public static long BetMoney = 100; // 베팅 클릭 시 액수 변경하도록
+    static long BetMoney = 100; // 베팅 클릭 시 액수 변경하도록
 
-    public static bool BetOK = false; // 베팅 타이밍 위한 변수
-    public static bool BetOff = false; // 베팅 후 사용할 변수, 각 게임에서 사용하여 다음 진행
+    static bool BetOff = false; // 베팅 후 사용할 변수, 각 게임에서 사용하여 다음 진행
 
     // Start is called before the first frame update
     void Start()
@@ -75,22 +74,60 @@ public class Manager_Main : MonoBehaviour
         UI_Main.Instance.SetBetPanel(true); // 베팅 패널 on
     }
 
+    public static void SetBetOff(bool onoff)
+    {
+        BetOff = onoff;
+    }
+
+    public static bool GetBetOff()
+    {
+        return BetOff;
+    }
+
     public static void SetBetMoney(long money)
     {
         BetMoney = money;
     }
+    public static long GetBetMoney()
+    {
+        return BetMoney;
+    }
 
-    public static void Win() // 이길 시 사용하는 메서드
+    void Win() // 이길 시 사용하는 메서드
     {
         SetMoney(2 * BetMoney);
-        BetMoney = 100; // 초기화
-        UI_Main.Instance.MoneyUIUpdate(2 * BetMoney);
     }
-    public static void Lose()
+    
+    void Lose()
     { 
         //아무 일도 일어나지 않음
+    }
+
+    void Draw()
+    {
+        SetMoney(BetMoney);
+    }
+
+    public void Result(int winWho) // 각 게임에서 누가 이겼냐에 따라 달라지는 결과
+    {
+        if(winWho == 0)
+            Draw();
+        else if(winWho == 1)
+            Win();
+        else
+            Lose();
+    }
+
+    public void ResultUIUpdate(int winWho)
+    {
+        if(winWho == 0) // 비겼을 때 원금 회수
+            UI_Main.Instance.MoneyUIUpdate(BetMoney);
+        else if(winWho == 1) // 이기면 두 배로 받음
+            UI_Main.Instance.MoneyUIUpdate(2*BetMoney);
+
         BetMoney = 100; // 초기화
     }
+
 
     public static void SceneChange(string scenename) // 씬 전환 메서드
     {
