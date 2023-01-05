@@ -268,13 +268,4 @@ public class RSPCardsManager : MonoBehaviour
 
         VoteRSP_Manager.Instance.ShowResultOK = true;
     }
-
-    
-
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
