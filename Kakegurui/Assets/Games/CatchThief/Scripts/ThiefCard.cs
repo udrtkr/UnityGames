@@ -5,6 +5,12 @@ using UnityEngine;
 public class ThiefCard : MonoBehaviour
 {
     public ThiefCardType cardType;
+
+    public void Reset()
+    {
+        transform.eulerAngles = new Vector3(-90, 0, 0);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
